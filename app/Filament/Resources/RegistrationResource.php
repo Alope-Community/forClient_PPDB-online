@@ -81,9 +81,8 @@ class RegistrationResource extends Resource
                     ->sortable()
                     ->badge()
                     ->colors([
-                        'warning' => 'menunggu',
-                        'success' => 'diterima',
-                        'danger' => 'ditolak',
+                        'success' => 'afirmasi',
+                        'info' => 'reguler',
                     ]),
                 Tables\Columns\TextColumn::make('status')
                     ->label('Status')
