@@ -3,7 +3,7 @@ import ButtonComponent from "../Components/Button";
 export default function Content() {
     return (
         <div className="container mx-auto px-4 md:px-6 lg:px-4 py-16">
-            <div className="flex flex-col-reverse md:flex-row items-center gap-8">
+            <div className="flex flex-col-reverse md:flex-row items-center gap-8 ">
                 <div className="md:w-1/2 text-center md:text-left mt-4 md:mt-0">
                     <h2 className="text-3xl font-bold">MTs LA TAHZAN</h2>
                     <p className="mt-4 text-primary">

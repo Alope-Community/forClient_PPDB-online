@@ -2,7 +2,7 @@ import { IconMapPin } from "@tabler/icons-react";
 
 export default function Hero() {
     return (
-        <div className="relative w-full min-h-[300px] md:min-h-[500px] lg:min-h-[600px] top-16 md:top-0">
+        <div className="relative w-full min-h-[400px] md:min-h-[600px] lg:min-h-[800px] top-16 md:top-0">
             <img
                 src="../image/hero/hero.jpg"
                 alt="PPDB Banner"
