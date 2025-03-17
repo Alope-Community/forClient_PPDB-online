@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RegisterDataController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -24,6 +25,12 @@ Route::get('/pendaftaran-jalur-reguler', function () {
 Route::get('/pendaftaran-jalur-afirmasi', function () {
     return Inertia::render('PendaftaranJalurAfirmasi');
 });
+
+Route::get('/personal', function () {
+    return Inertia::render('Profile/RegisterData');
+})->middleware(['auth', 'verified']);
+
+Route::post('/register-data', [RegisterDataController::class, 'store']);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
