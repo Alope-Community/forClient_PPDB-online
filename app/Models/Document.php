@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Document extends Model
 {
@@ -16,4 +17,10 @@ class Document extends Model
     {
         return $this->belongsTo(Registration::class);
     }
+
+    public function verification(): HasOne
+    {
+        return $this->hasOne(Verification::class);
+    }
+
 }
