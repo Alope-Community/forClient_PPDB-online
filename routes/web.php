@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\EditProfileController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegisterDataController;
 use App\Http\Controllers\RegistrationContoller;
@@ -20,16 +21,20 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/pendaftaran-jalur-reguler', [RegistrationContoller::class, 'regularPath']);
-Route::get('/pendaftaran-jalur-afirmasi', [RegistrationContoller::class, 'afirmationPath']);
-Route::post('/registration', [RegistrationContoller::class, 'registration']);
+Route::get('/pendaftaran-jalur-reguler', [RegistrationContoller::class, 'regularPath'])->middleware(['auth', 'verified'])->name('dashboard');;
+Route::get('/pendaftaran-jalur-afirmasi', [RegistrationContoller::class, 'afirmationPath'])->middleware(['auth', 'verified'])->name('dashboard');;
+Route::post('/registration', [RegistrationContoller::class, 'registration'])->middleware(['auth', 'verified'])->name('dashboard');;
 
 
 Route::get('/personal', function () {
     return Inertia::render('Profile/RegisterData');
 })->middleware(['auth', 'verified']);
 
-Route::post('/register-data', [RegisterDataController::class, 'store']);
+Route::post('/register-data', [RegisterDataController::class, 'store'])->middleware(['auth', 'verified'])->name('dashboard');;
+
+Route::get('/edit-profile', [EditProfileController::class, 'edit'])->middleware(['auth', 'verified'])->name('edit-profile');
+
+Route::post('/edit-profile', [EditProfileController::class, 'update'])->middleware(['auth', 'verified'])->name('update-profile');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
