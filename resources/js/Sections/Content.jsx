@@ -3,7 +3,7 @@ import ButtonComponent from "../Components/Button";
 export default function Content() {
     return (
         <div className="container mx-auto px-4 md:px-6 lg:px-4 py-16">
-            <div className="flex flex-col-reverse md:flex-row items-center gap-8">
+            <div className="flex flex-col-reverse md:flex-row items-center gap-8 ">
                 <div className="md:w-1/2 text-center md:text-left mt-4 md:mt-0">
                     <h2 className="text-3xl font-bold">MTs LA TAHZAN</h2>
                     <p className="mt-4 text-primary">
@@ -74,12 +74,12 @@ export default function Content() {
                 </p>
             </div>
             <div className="grid md:grid-cols-[1fr_auto_1fr] gap-x-16 mt-8 items-center">
-                <div className="pb-4 md:pb-0 md:pr-12 flex flex-col items-end">
+                <div className="pb-4 md:pb-0 md:pr-12 flex flex-col md:items-end items-center">
                     <h3 className="text-xl font-semibold text-center md:text-right">
                         Jalur Reguler
                     </h3>
                     <p className="text-secondary text-center md:text-right">
-                        14 Juni 2025 – 14 Agustus 2025
+                        14 Juni 2025 - 14 Agustus 2025
                     </p>
                     <h4 className="mt-4 font-semibold text-center md:text-right">
                         Persyaratan
@@ -123,7 +123,7 @@ export default function Content() {
                 <div className="hidden md:flex justify-center">
                     <div className="w-[2px] h-[350px] bg-secondary"></div>
                 </div>
-                <div className="pb-4 md:pb-0 md:pl-12">
+                <div className="pb-4 md:pb-0 md:pl-12 flex flex-col md:items-start items-center">
                     <h3 className="text-xl font-semibold text-center md:text-left">
                         Jalur Afirmasi
                     </h3>
