@@ -1,7 +1,6 @@
 import ButtonComponent from "@/Components/Button";
-import PrimaryButton from "@/Components/PrimaryButton";
 import { Head, useForm, usePage } from "@inertiajs/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function PendaftaranJalurReguler() {
     const { auth, registration } = usePage().props;
