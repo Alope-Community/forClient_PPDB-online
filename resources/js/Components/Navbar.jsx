@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { Link } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
 import Button from "./Button";
-import { IconChevronDown, IconMenu2, IconX } from "@tabler/icons-react";
+import DropdownWelcome from './DropdownWelcome'
 import ButtonComponent from "./Button";
 
-export default function Navbar() {
+export default function tallNavbar() {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -35,7 +35,11 @@ export default function Navbar() {
                                 className="inline-flex items-center text-primary hover:text-gray-950 focus:outline-none"
                             >
                                 Daftar PPDB
-                                <IconChevronDown className="ml-1 h-5 w-5" />
+                                <div className="ml-1 h-5 w-5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                                    </svg>
+                                </div>
                             </button>
                             {dropdownOpen && (
                                 <div className="absolute left-0 mt-2 bg-white shadow-md rounded z-30">
@@ -55,41 +59,33 @@ export default function Navbar() {
                             )}
                         </div>
                     </div>
-                    <div className="hidden md:flex space-x-2">
-                        <ButtonComponent
-                            text="Login"
-                            variant="outline-secondary"
-                            size="md"
-                            color="secondary"
-                            link={"/login"}
-                        />
-                        <ButtonComponent
-                            text="Register "
-                            variant="outline-secondary"
-                            size="md"
-                            color="secondary"
-                            link={"/register"}
-                        />
-                    </div>
+                    <DropdownWelcome />
                     <button
                         className="md:hidden text-primary"
                         onClick={() => setSidebarOpen(true)}
                     >
-                        <IconMenu2 className="h-8 w-8" />
+                        <div className="h-8 w-8">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                            </svg>
+                        </div>
                     </button>
                 </div>
             </div>
 
             <div
-                className={`fixed top-0 right-0 w-screen h-screen bg-white z-50 transform transition-transform duration-300 ${
-                    sidebarOpen ? "translate-x-0" : "translate-x-full"
-                }`}
+                className={`fixed top-0 right-0 w-screen h-screen bg-white z-50 transform transition-transform duration-300 ${sidebarOpen ? "translate-x-0" : "translate-x-full"
+                    }`}
             >
                 <button
                     className="absolute top-4 right-4 text-gray-600"
                     onClick={() => setSidebarOpen(false)}
                 >
-                    <IconX className="h-6 w-6" />
+                    <div className="h-6 w-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+                        </svg>
+                    </div>
                 </button>
                 <div className="flex flex-col items-center justify-center h-full space-y-6">
                     <Link
@@ -105,7 +101,11 @@ export default function Navbar() {
                             className="flex items-center text-primary text-lg font-semibold hover:text-gray-950"
                         >
                             Daftar PPDB
-                            <IconChevronDown className="ml-1 h-5 w-5" />
+                            <div className="ml-1 h-5 w-5">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                                </svg>
+                            </div>
                         </button>
                         {dropdownOpen && (
                             <div className="mt-2 text-center">

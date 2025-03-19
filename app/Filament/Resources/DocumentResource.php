@@ -86,10 +86,11 @@ class DocumentResource extends Resource
 
                 Forms\Components\FileUpload::make('file_path')
                     ->label('File')
-                    ->acceptedFileTypes(['application/pdf', 'image/*'])
+                    ->acceptedFileTypes(['image/*'])
                     ->downloadable()
                     ->openable()
                     ->deletable()
+                    ->disk('public')
                     ->directory('documents')
                     ->required(),
             ]);
