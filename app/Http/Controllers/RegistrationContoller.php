@@ -5,18 +5,27 @@ namespace App\Http\Controllers;
 use App\Models\Document;
 use App\Models\Registration;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class RegistrationContoller extends Controller
 {
     public function regularPath()
     {
-        return Inertia::render('PendaftaranJalurReguler');
+        $registration = Registration::whereUserId(Auth::user()->id)->first();
+
+        return Inertia::render('PendaftaranJalurReguler', [
+            "registration" => $registration
+        ]);
     }
 
     public function afirmationPath()
     {
-        return Inertia::render('PendaftaranJalurAfirmasi');
+        $registration = Registration::whereUserId(Auth::user()->id)->first();
+
+        return Inertia::render('PendaftaranJalurAfirmasi', [
+            "registration" => $registration
+        ]);
     }
 
     public function registration(Request $request)
@@ -28,6 +37,7 @@ class RegistrationContoller extends Controller
             'kia_ktp_ortu' => 'required|file|mimes:jpg,jpeg|max:10240',
             'ijazah' => 'required|file|mimes:jpg,jpeg|max:10240',
             'skhu_raport' => 'required|file|mimes:jpg,jpeg|max:10240',
+            'kip_pkh_pip_sktm' => 'nullable|file|mimes:jpg,jpeg|max:10240',
             'user_id' => 'required',
             'jalur_registrasi' => 'required',
         ]);
@@ -38,9 +48,13 @@ class RegistrationContoller extends Controller
             $field => $request->file($field)->store("documents/$field")
         ])->toArray();
 
+        if ($request->jalur_registrasi === 'afirmasi' && $request->hasFile('kip_pkh_pip_sktm')) {
+            $filePaths['kip_pkh_pip_sktm'] = $request->file('kip_pkh_pip_sktm')->store("documents/kip_pkh_pip_sktm");
+        }
+
         $registration = Registration::create([
             'user_id' => $request->user_id,
-            'jalur_registrasi' => $request->jalur_registrasi,
+            'registration_path' => $request->jalur_registrasi,
         ]);
 
         $documentTypes = [
@@ -50,13 +64,14 @@ class RegistrationContoller extends Controller
             'kia_ktp_ortu' => 'ktp ortu',
             'ijazah' => 'ijazah',
             'skhu_raport' => 'skhu raport',
+            'kip_pkh_pip_sktm' => 'kip/pkh/pip/sktm',
         ];
 
         $documents = array_map(fn($field) => [
             'registration_id' => $registration->id,
             'document_type' => $documentTypes[$field],
             'file_path' => $filePaths[$field],
-        ], $fileFields);
+        ], array_keys($filePaths));
 
         Document::insert($documents);
 

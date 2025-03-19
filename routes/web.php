@@ -16,14 +16,10 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::get('/pendaftaran-jalur-reguler', [RegistrationContoller::class, 'regularPath'])->middleware(['auth', 'verified']);
-Route::get('/pendaftaran-jalur-afirmasi', [RegistrationContoller::class, 'afirmationPath'])->middleware(['auth', 'verified']);
-Route::post('/registration', [RegistrationContoller::class, 'registration'])->middleware(['auth', 'verified']);
-
+// Registration
+Route::get('/pendaftaran-jalur-reguler', [RegistrationContoller::class, 'regularPath'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/pendaftaran-jalur-afirmasi', [RegistrationContoller::class, 'afirmationPath'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::post('/registration', [RegistrationContoller::class, 'registration'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/register-data', function () {
     return Inertia::render('Profile/RegisterData');
