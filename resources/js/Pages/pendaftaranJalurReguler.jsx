@@ -1,3 +1,5 @@
+import ButtonComponent from "@/Components/Button";
+import PrimaryButton from "@/Components/PrimaryButton";
 import { Head, useForm, usePage } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 
@@ -15,17 +17,30 @@ export default function PendaftaranJalurReguler() {
         user_id: auth.user.id,
     });
 
+    const [previewPhoto, setPreviewPhoto] = useState({
+        pas_foto: { url: "", name: "" },
+        kartu_keluarga: { url: "", name: "" },
+        akte_kelahiran: { url: "", name: "" },
+        kia_ktp_ortu: { url: "", name: "" },
+        ijazah: { url: "", name: "" },
+        skhu_raport: { url: "", name: "" },
+    });
+
     const handleFileChange = (e, field) => {
-        setData(field, e.target.files[0]);
-    };
-
-    const [previewPhoto, setPreviewPhoto] = useState(null);
-
-    const showPreviewImage = (e) => {
         const file = e.target.files[0];
+
         if (file) {
             const imageUrl = URL.createObjectURL(file);
-            setPreviewPhoto(imageUrl);
+
+            setPreviewPhoto((prev) => ({
+                ...prev,
+                [field]: {
+                    url: imageUrl,
+                    name: field !== "pas_foto" ? file.name : prev[field].name,
+                },
+            }));
+
+            setData(field, file);
         }
     };
 
@@ -80,7 +95,6 @@ export default function PendaftaranJalurReguler() {
                                         type="file"
                                         onChange={(e) => {
                                             handleFileChange(e, "pas_foto");
-                                            showPreviewImage(e);
                                         }}
                                         className="hidden"
                                         id="pas_foto"
@@ -89,9 +103,9 @@ export default function PendaftaranJalurReguler() {
                                         htmlFor="pas_foto"
                                         className="cursor-pointer flex flex-col items-center justify-center w-full h-full text-center text-gray-900 sm:text-sm"
                                     >
-                                        {previewPhoto ? (
+                                        {previewPhoto.pas_foto.url ? (
                                             <img
-                                                src={previewPhoto}
+                                                src={previewPhoto.pas_foto.url}
                                                 alt="Preview"
                                                 className="w-full h-full object-cover rounded-lg"
                                             />
@@ -100,18 +114,25 @@ export default function PendaftaranJalurReguler() {
                                         )}
                                     </label>
                                 </div>
-                                <p className="text-xs sm:text-sm text-red-500 mt-2 w-72 text-start">
-                                    * Format File berbentuk jpg/jpeg
-                                </p>
-                                <p className="text-xs sm:text-sm text-red-500 mt-2 w-72 text-start">
-                                    * Minimal 1 MB
-                                </p>
-                                <p className="text-xs sm:text-sm text-red-500 mt-2 w-72 text-start">
-                                    * Maximal 10 MB
-                                </p>
-                                <p className="text-xs sm:text-sm text-red-500 mt-2 w-72 text-start">
-                                    * Sebelum mendaftar pastikan data sesuai
-                                </p>
+                                {errors.pas_foto && (
+                                    <p className="text-sm text-red-500 mt-2">
+                                        {errors.pas_foto}
+                                    </p>
+                                )}
+                                <div className="bg-secondary p-5 rounded mt-10">
+                                    <p className="text-xs sm:text-sm text-white mt-2 w-72 text-start">
+                                        * Format File berbentuk jpg/jpeg
+                                    </p>
+                                    <p className="text-xs sm:text-sm text-white mt-2 w-72 text-start">
+                                        * Minimal 1 MB
+                                    </p>
+                                    <p className="text-xs sm:text-sm text-white mt-2 w-72 text-start">
+                                        * Maximal 10 MB
+                                    </p>
+                                    <p className="text-xs sm:text-sm text-white mt-2 w-72 text-start">
+                                        * Sebelum mendaftar pastikan data sesuai
+                                    </p>
+                                </div>
                             </div>
 
                             {/* Formulir Pendaftaran */}
@@ -155,16 +176,54 @@ export default function PendaftaranJalurReguler() {
                                                 htmlFor={doc.field}
                                                 className="cursor-pointer flex items-center justify-center text-center text-gray-900 w-full"
                                             >
-                                                Pilih File
+                                                {previewPhoto[doc.field].url ? (
+                                                    <div className="flex gap-2 items-center">
+                                                        <img
+                                                            src={
+                                                                previewPhoto[
+                                                                    doc.field
+                                                                ].url
+                                                            }
+                                                            alt="Preview"
+                                                            className="w-[80px] max-h-[80px] object-contain rounded border p-1"
+                                                        />
+                                                        <span className="text-sm">
+                                                            {
+                                                                previewPhoto[
+                                                                    doc.field
+                                                                ].name
+                                                            }
+                                                        </span>
+                                                    </div>
+                                                ) : (
+                                                    <span>Pilih File</span>
+                                                )}
                                             </label>
                                         </div>
+                                        {errors[doc.field] && (
+                                            <p className="text-sm text-red-500 mt-2">
+                                                {errors[doc.field]}
+                                            </p>
+                                        )}
                                     </div>
                                 ))}
                             </div>
                         </div>
-                        <button className="w-fit px-20 py-2 mx-auto flex md:items-center justify-center font-semibold bg-secondary text-white rounded-md text-base mt-6 transition-all duration-300 ease-in-out hover:bg-secondary/80 hover:shadow-md">
-                            Daftar
-                        </button>
+                        <div className="flex items-center gap-5 mt-6 justify-center">
+                            <div>
+                                <ButtonComponent
+                                    text={"Kembali"}
+                                    variant={"outline-secondary"}
+                                    size={"lg"}
+                                    link={"/"}
+                                />
+                            </div>
+                            <div>
+                                <button className="w-fit px-20 py-2 mx-auto flex md:items-center justify-center font-semibold bg-secondary text-white rounded-md text-base transition-all duration-300 ease-in-out hover:bg-secondary/80 hover:shadow-md">
+                                    Daftar
+                                </button>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>

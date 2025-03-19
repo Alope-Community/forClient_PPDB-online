@@ -28,6 +28,7 @@ class RegistrationContoller extends Controller
             'kia_ktp_ortu' => 'required|file|mimes:jpg,jpeg|max:10240',
             'ijazah' => 'required|file|mimes:jpg,jpeg|max:10240',
             'skhu_raport' => 'required|file|mimes:jpg,jpeg|max:10240',
+            'kip_pkh_pip_sktm' => 'nullable|file|mimes:jpg,jpeg|max:10240',
             'user_id' => 'required',
             'jalur_registrasi' => 'required',
         ]);
@@ -37,6 +38,10 @@ class RegistrationContoller extends Controller
         $filePaths = collect($fileFields)->mapWithKeys(fn($field) => [
             $field => $request->file($field)->store("documents/$field")
         ])->toArray();
+
+        if ($request->jalur_registrasi === 'afirmasi' && $request->hasFile('kip_pkh_pip_sktm')) {
+            $filePaths['kip_pkh_pip_sktm'] = $request->file('kip_pkh_pip_sktm')->store("documents/kip_pkh_pip_sktm");
+        }
 
         $registration = Registration::create([
             'user_id' => $request->user_id,
@@ -50,13 +55,14 @@ class RegistrationContoller extends Controller
             'kia_ktp_ortu' => 'ktp ortu',
             'ijazah' => 'ijazah',
             'skhu_raport' => 'skhu raport',
+            'kip_pkh_pip_sktm' => 'kip/pkh/pip/sktm',
         ];
 
         $documents = array_map(fn($field) => [
             'registration_id' => $registration->id,
             'document_type' => $documentTypes[$field],
             'file_path' => $filePaths[$field],
-        ], $fileFields);
+        ], array_keys($filePaths));
 
         Document::insert($documents);
 
