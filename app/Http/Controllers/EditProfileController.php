@@ -14,7 +14,7 @@ class EditProfileController extends Controller
     {
         $user = Auth::user();
         $registration = $user->registration;
-        $documents = $registration ? $registration->documents : collect([]); // Jika null, buat koleksi kosong
+        $documents = $registration ? $registration->documents : collect([]);
 
         return Inertia::render('Profile/EditProfile', [
             'user' => $user,
@@ -25,8 +25,6 @@ class EditProfileController extends Controller
 
     public function update(Request $request)
     {
-        dd($request->all());
-
         $user = Auth::user();
 
         $request->validate([
@@ -38,7 +36,7 @@ class EditProfileController extends Controller
             'nama_ayah' => 'nullable|string|max:255',
             'nomor_telepon' => 'nullable|string|max:15',
             'pekerjaan_ayah' => 'nullable|string|max:255',
-            'upah_ayah' => 'nullable|numeric',
+            'penghasilan_orang_tua' => 'nullable|numeric',
             'nama_ibu' => 'nullable|string|max:255',
             'nomor_ibu_hp' => 'nullable|string|max:15',
             'pekerjaan_ibu' => 'nullable|string|max:255',
@@ -49,7 +47,7 @@ class EditProfileController extends Controller
         if ($request->hasFile('photo')) {
             $registration = $user->registration;
             if (!$registration) {
-                return redirect()->back()->withErrors(['error' => 'Data pendaftaran tidak ditemukan']);
+                return redirect()->back()->with('error', 'Data pendaftaran belum ditemukan, silahkan daftar melalui pilihan yang sesuai.');
             }
 
             $document = $registration->documents()->where('document_type', 'pas photo')->first();
@@ -65,10 +63,12 @@ class EditProfileController extends Controller
             } else {
                 Document::create([
                     'registration_id' => $registration->id,
-                    'document_type' => 'pas photo', // Sesuaikan dengan yang digunakan sebelumnya
+                    'document_type' => 'pas photo',
                     'file_path' => $path,
                 ]);
             }
+        } else {
+            $request->request->remove('photo');
         }
 
         $user->update([
@@ -85,7 +85,7 @@ class EditProfileController extends Controller
                 'father_job' => $request->pekerjaan_ayah,
                 'mother_name' => $request->nama_ibu,
                 'mother_job' => $request->pekerjaan_ibu,
-                'parent_salary' => $request->upah_ayah,
+                'parent_salary' => $request->penghasilan_orang_tua,
                 'phone_number' => $request->nomor_telepon,
             ]);
         } else {
@@ -97,7 +97,7 @@ class EditProfileController extends Controller
                 'father_job' => $request->pekerjaan_ayah,
                 'mother_name' => $request->nama_ibu,
                 'mother_job' => $request->pekerjaan_ibu,
-                'parent_salary' => $request->upah_ayah,
+                'parent_salary' => $request->penghasilan_orang_tua,
                 'phone_number' => $request->nomor_telepon,
             ]);
         }

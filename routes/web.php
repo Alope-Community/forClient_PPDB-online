@@ -20,16 +20,16 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/pendaftaran-jalur-reguler', [RegistrationContoller::class, 'regularPath'])->middleware(['auth', 'verified'])->name('dashboard');;
-Route::get('/pendaftaran-jalur-afirmasi', [RegistrationContoller::class, 'afirmationPath'])->middleware(['auth', 'verified'])->name('dashboard');;
-Route::post('/registration', [RegistrationContoller::class, 'registration'])->middleware(['auth', 'verified'])->name('dashboard');;
+Route::get('/pendaftaran-jalur-reguler', [RegistrationContoller::class, 'regularPath'])->middleware(['auth', 'verified']);
+Route::get('/pendaftaran-jalur-afirmasi', [RegistrationContoller::class, 'afirmationPath'])->middleware(['auth', 'verified']);
+Route::post('/registration', [RegistrationContoller::class, 'registration'])->middleware(['auth', 'verified']);
 
 
-Route::get('/personal', function () {
+Route::get('/register-data', function () {
     return Inertia::render('Profile/RegisterData');
-})->middleware(['auth', 'verified']);
+})->middleware(['auth', 'verified'])->name('register-data-get');
 
-Route::post('/register-data', [RegisterDataController::class, 'store'])->middleware(['auth', 'verified'])->name('dashboard');;
+Route::post('/register-data', [RegisterDataController::class, 'store'])->middleware(['auth', 'verified'])->name('register-data-post');
 
 Route::get('/edit-profile', [EditProfileController::class, 'edit'])->middleware(['auth', 'verified'])->name('edit-profile');
 

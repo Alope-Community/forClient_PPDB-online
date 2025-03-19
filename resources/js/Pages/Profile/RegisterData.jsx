@@ -39,7 +39,6 @@ export default function RegisterData() {
         }
     }, [flash]);
 
-
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
             <div className="w-full mx-20 p-6 bg-white shadow-md rounded-lg border border-secondary text-primary">
@@ -116,12 +115,6 @@ export default function RegisterData() {
                             {errors.schoolOrigin && formData.schoolOrigin === '' && <p className="text-red-500 text-sm">{errors.schoolOrigin}</p>}
                         </div>
                         <div className="col-span-2 flex justify-between mt-4">
-                            <ButtonComponent
-                                text="Kembali"
-                                variant="secondary"
-                                size="lg"
-                                color="white"
-                            />
                             <ButtonComponent
                                 text="Daftar Sekarang"
                                 variant="secondary"

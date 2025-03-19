@@ -5,7 +5,6 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import GuestLayout from '@/Layouts/GuestLayout';
 import { Head, Link, useForm } from '@inertiajs/react';
-import { IconCornerUpLeft } from "@tabler/icons-react";
 
 export default function Login({ status }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -40,10 +39,11 @@ export default function Login({ status }) {
                     href="/"
                     className="px-3 py-2 text-sm sm:text-base text-secondary rounded-md transition-transform duration-300 border border-secondary hover:bg-secondary hover:text-white flex items-center gap-2 flex-wrap w-full sm:w-auto"
                 >
-                    <IconCornerUpLeft
-                        stroke={1}
-                        className="w-4 h-4 sm:w-5 sm:h-5"
-                    />
+                    <div className="w-4 h-4 sm:w-5 sm:h-5">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" />
+                        </svg>
+                    </div>
                     <span>Kembali</span>
                 </Link>
             </div>

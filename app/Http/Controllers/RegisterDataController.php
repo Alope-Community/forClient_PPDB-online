@@ -58,7 +58,7 @@ class RegisterDataController extends Controller
 
         try {
             UserDetail::create($formattedData);
-            return redirect()->back()->with('success', 'Data berhasil disimpan!');
+            return redirect()->route('dashboard')->with('success', 'Data berhasil disimpan!');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Terjadi kesalahan, coba lagi.');
         }
