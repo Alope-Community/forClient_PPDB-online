@@ -5,18 +5,27 @@ namespace App\Http\Controllers;
 use App\Models\Document;
 use App\Models\Registration;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class RegistrationContoller extends Controller
 {
     public function regularPath()
     {
-        return Inertia::render('PendaftaranJalurReguler');
+        $registration = Registration::whereUserId(Auth::user()->id)->first();
+
+        return Inertia::render('PendaftaranJalurReguler', [
+            "registration" => $registration
+        ]);
     }
 
     public function afirmationPath()
     {
-        return Inertia::render('PendaftaranJalurAfirmasi');
+        $registration = Registration::whereUserId(Auth::user()->id)->first();
+
+        return Inertia::render('PendaftaranJalurAfirmasi', [
+            "registration" => $registration
+        ]);
     }
 
     public function registration(Request $request)
@@ -45,7 +54,7 @@ class RegistrationContoller extends Controller
 
         $registration = Registration::create([
             'user_id' => $request->user_id,
-            'jalur_registrasi' => $request->jalur_registrasi,
+            'registration_path' => $request->jalur_registrasi,
         ]);
 
         $documentTypes = [
