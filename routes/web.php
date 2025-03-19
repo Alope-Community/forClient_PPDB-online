@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EditProfileController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegisterDataController;
 use App\Http\Controllers\RegistrationContoller;
@@ -9,9 +10,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('Welcome');
-});
+Route::get('/', [HomeController::class, 'index']);
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
