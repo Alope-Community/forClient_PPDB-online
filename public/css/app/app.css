@@ -66,8 +66,3 @@ pre.prettyjson {
 :is(.dark) .active {
     background-color: #161617 !important;
 }
-
-.jsoneditor-menu {
-    background-color: #00923f !important;
-    border: none !important;
-}

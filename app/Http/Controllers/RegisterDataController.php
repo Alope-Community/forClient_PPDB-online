@@ -4,14 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\UserDetail;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Auth;
 
 class RegisterDataController extends Controller
 {
     public function store(Request $request)
     {
-        $userId = auth()->id();
+        $userId = Auth::user()->id;
 
         $validatedData = $request->validate([
             'fatherName'    => 'required|string|max:255',

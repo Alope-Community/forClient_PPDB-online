@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('user_details', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('father_name');
-            $table->string('mother_name');
+            $table->string('father_name')->nullable();
+            $table->string('mother_name')->nullable();
             $table->string('phone_number')->nullable();
             $table->enum('father_job', ['pegawai', 'wiraswasta', 'pedagang', 'lainnya', 'tidak bekerja'])->default('tidak bekerja');
             $table->enum('mother_job', ['IRT', 'pedagang', 'pegawai', 'lainnya'])->default('IRT');
@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('school_origin')->nullable();
             $table->decimal('school_expense', 10, 2)->nullable();
             $table->decimal('distance', 10, 2)->nullable();
-            $table->text('address');
+            $table->text('address')->nullable();
             $table->timestamps();
         });
     }
