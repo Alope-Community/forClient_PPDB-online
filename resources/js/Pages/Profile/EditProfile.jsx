@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useForm, usePage } from "@inertiajs/react";
 
 export default function EditProfile({ user, detail, documents }) {
-    const { flash } = usePage().props
+    const { errors, flash } = usePage().props
     const [alert, setAlert] = useState({ type: '', message: '' });
     const { data, setData, post, processing } = useForm({
         name: user?.name || "",
@@ -12,11 +12,11 @@ export default function EditProfile({ user, detail, documents }) {
         alamat_rumah: detail?.address || "",
         nama_ayah: detail?.father_name || "",
         nomor_telepon: detail?.phone_number || "",
-        pekerjaan_ayah: detail?.father_job || "",
+        pekerjaan_ayah: detail?.father_job || "tidak bekerja",
         penghasilan_orang_tua: detail?.parent_salary || "",
         nama_ibu: detail?.mother_name || "",
         nomor_ibu_hp: detail?.mother_phone || "",
-        pekerjaan_ibu: detail?.mother_job || "",
+        pekerjaan_ibu: detail?.mother_job || "irt",
         ongkos_sekolah: detail?.school_expense || "",
         photo: documents?.find(doc => doc.document_type === 'pas photo')?.file_path || "",
     });
@@ -118,69 +118,100 @@ export default function EditProfile({ user, detail, documents }) {
                     </div>
 
                     {/* Form Data */}
-                    <div className="w-full md:w-2/3 p-5 border border-secondary rounded-lg">
+                    <div className="flex flex-col w-full md:w-2/3 p-5 border border-secondary rounded-lg gap-5">
                         <h2 className="text-lg font-semibold mb-2">Data Pribadi</h2>
                         {[["Nama", "name"], ["NISN", "nisn"], ["Jarak Rumah Ke Sekolah", "jarak_rumah"], ["Asal Sekolah", "asal_sekolah"], ["Alamat Rumah", "alamat_rumah"], ["Nomor Telepon Orang Tua", "nomor_telepon"]].map(([label, field]) => (
-                            <div key={field} className="flex flex-col md:flex-row items-start md:items-center">
-                                <label className="w-full md:w-1/2 text-gray-700">{label}</label>
-                                <input
-                                    type="text"
-                                    className="border border-secondary p-2 w-full md:w-1/2 rounded-md"
-                                    value={data[field]}
-                                    onChange={(e) => setData(field, e.target.value)}
-                                />
+                            <div key={field} className="">
+                                <div className="flex flex-col md:flex-row items-start md:items-center">
+                                    <label className="w-full md:w-1/2 text-gray-700">{label}</label>
+                                    <div className="w-1/2">
+                                        <input
+                                            type="text"
+                                            className={`border p-2 w-full md:w-full rounded-md ${field == 'alamat_rumah' && errors.alamat_rumah && data.alamat_rumah === '' ? 'border-red-500' : 'border-secondary'}`}
+                                            value={data[field]}
+                                            onChange={(e) => setData(field, e.target.value)}
+                                        />
+                                        <div className="text-sm font-medium">
+                                            {field == 'alamat_rumah' && errors.alamat_rumah && data.alamat_rumah === '' && <p className="text-red-500 text-sm">{errors.alamat_rumah}</p>}
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         ))}
 
                         <h2 className="text-lg font-semibold mb-2 mt-4">Data Ayah</h2>
                         {[["Nama Ayah", "nama_ayah"], ["Penghasilan Orang Tua", "penghasilan_orang_tua"]].map(([label, field]) => (
-                            <div key={field} className="flex flex-col md:flex-row items-start md:items-center">
-                                <label className="w-full md:w-1/2 text-gray-700">{label}</label>
-                                <input
-                                    type="text"
-                                    className="border border-secondary p-2 w-full md:w-1/2 rounded-md"
-                                    value={data[field]}
-                                    onChange={(e) => setData(field, e.target.value)}
-                                />
+                            <div key={field} className="">
+                                <div className="flex flex-col md:flex-row items-start md:items-center">
+                                    <label className="w-full md:w-1/2 text-gray-700">{label}</label>
+                                    <div className="w-1/2">
+                                        <input
+                                            type="text"
+                                            className={`border p-2 w-full rounded-md ${field == 'nama_ayah' && errors.nama_ayah && data.nama_ayah === '' ? 'border-red-500' : 'border-secondary'}`}
+                                            value={data[field]}
+                                            onChange={(e) => setData(field, e.target.value)}
+                                        />
+                                        <div className="text-sm font-medium">
+                                            {field == 'nama_ayah' && errors.nama_ayah && data.nama_ayah === '' && <p className="text-red-500 text-sm">{errors.nama_ayah}</p>}
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         ))}
 
                         <div className="flex flex-col md:flex-row items-start md:items-center">
                             <label className="w-full md:w-1/2 text-gray-700">Pekerjaan Ayah</label>
-                            <select
-                                className="border border-secondary p-2 w-full md:w-1/2 rounded-md"
-                                value={fatherJobFormat}
-                                onChange={(e) => setData("pekerjaan_ayah", e.target.value)}>
-                                {fatherJobOptions.map((option) => (
-                                    <option key={option} value={option.toLowerCase()}>{option}</option>
-                                ))}
-                            </select>
+                            <div className="w-1/2">
+                                <select
+                                    className={`border p-2 w-full rounded-md ${errors.pekerjaan_ayah && data.pekerjaan_ayah === '' ? 'border-red-500' : 'border-secondary'}`}
+                                    value={fatherJobFormat}
+                                    onChange={(e) => setData("pekerjaan_ayah", e.target.value)}>
+                                    {fatherJobOptions.map((option) => (
+                                        <option key={option} value={option.toLowerCase()}>{option}</option>
+                                    ))}
+                                </select>
+                                <div className="text-sm font-medium">
+                                    {errors.pekerjaan_ayah && data.pekerjaan_ayah === '' && <p className="text-red-500 text-sm">{errors.pekerjaan_ayah}</p>}
+                                </div>
+                            </div>
                         </div>
 
                         <h2 className="text-lg font-semibold mb-2 mt-4">Data Ibu</h2>
                         {[["Nama Ibu", "nama_ibu"]].map(([label, field]) => (
-                            <div key={field} className="flex flex-col md:flex-row items-start md:items-center">
-                                <label className="w-full md:w-1/2 text-gray-700">{label}</label>
-                                <input
-                                    type="text"
-                                    className="border border-secondary p-2 w-full md:w-1/2 rounded-md"
-                                    value={data[field]}
-                                    onChange={(e) => setData(field, e.target.value)}
-                                />
+                            <div key={field} className="">
+                                <div className="flex flex-col md:flex-row items-start md:items-center">
+                                    <label className="w-full md:w-1/2 text-gray-700">{label}</label>
+                                    <div className="w-1/2">
+                                        <input
+                                            type="text"
+                                            className={`border p-2 w-full rounded-md ${field == 'nama_ibu' && errors.nama_ibu && data.nama_ibu === '' ? 'border-red-500' : 'border-secondary'}`}
+                                            value={data[field]}
+                                            onChange={(e) => setData(field, e.target.value)}
+                                        />
+                                        <div className="text-sm font-medium">
+                                            {field == 'nama_ibu' && errors.nama_ibu && data.nama_ibu === '' && <p className="text-red-500 text-sm">{errors.nama_ibu}</p>}
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         ))}
 
                         <div className="flex flex-col md:flex-row items-start md:items-center">
-                            <label className="w-full md:w-1/2 text-gray-700">Pekerjaan Ayah</label>
-                            <select
-                                className="border border-secondary p-2 w-full md:w-1/2 rounded-md"
-                                value={motherJobFormat}
-                                onChange={(e) => setData("pekerjaan_ibu", e.target.value)}
-                            >
-                                {motherJobOptions.map((option) => (
-                                    <option key={option} value={option.toLowerCase()}>{option}</option>
-                                ))}
-                            </select>
+                            <label className="w-full md:w-1/2 text-gray-700">Pekerjaan Ibu</label>
+                            <div className="w-1/2">
+                                <select
+                                    className={`border p-2 w-full rounded-md ${errors.pekerjaan_ibu && data.pekerjaan_ibu === '' ? 'border-red-500' : 'border-secondary'}`}
+                                    value={motherJobFormat}
+                                    onChange={(e) => setData("pekerjaan_ibu", e.target.value)}
+                                >
+                                    {motherJobOptions.map((option) => (
+                                        <option key={option} value={option.toLowerCase()}>{option}</option>
+                                    ))}
+                                </select>
+                                <div className="text-sm font-medium">
+                                    {errors.pekerjaan_ibu && data.pekerjaan_ibu === '' && <p className="text-red-500 text-sm">{errors.pekerjaan_ibu}</p>}
+                                </div>
+                            </div>
                         </div>
 
                         <div className="flex justify-end mt-4">

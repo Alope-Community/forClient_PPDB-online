@@ -15,14 +15,14 @@ class RegisterDataController extends Controller
         $validatedData = $request->validate([
             'fatherName'    => 'required|string|max:255',
             'motherName'    => 'required|string|max:255',
-            'phoneNumber'   => 'string|max:15',
+            'phoneNumber'   => 'nullable|string|max:15',
             'fatherJob'     => 'required|string|max:100',
             'motherJob'     => 'required|string|max:100',
-            'parentSalary'  => 'string|max:50',
+            'parentSalary'  => 'nullable|string|max:50',
             'distance'       => 'required|numeric|min:0',
             'address'        => 'required|string|max:500',
-            'schoolOrigin'  => 'string|max:255',
-            'schoolExpense'  => 'string|max:255',
+            'schoolOrigin'  => 'required|string|max:255',
+            'schoolExpense'  => 'nullable|string|max:255',
         ], [
             'required' => ':attribute harus diisi!',
             'max'      => ':attribute terlalu panjang!',

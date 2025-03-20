@@ -104,13 +104,13 @@ export default function Login({ status }) {
                             <InputError message={errors.password} className="mt-2" />
                         </div>
 
-                        <div className="mt-4 flex items-center justify-end">
+                        <div className="mt-5 flex items-center justify-end">
 
                             <PrimaryButton className="w-full sm:w-2/3 bg-secondary mx-auto hover:bg-secondary/90" disabled={processing}>
                                 Log in
                             </PrimaryButton>
                         </div>
-                        <div className="mt-3 text-center">
+                        <div className="mt-10 text-center">
                             <span>Belum punya akun? </span>
                             <Link
                                 href={route("register")}

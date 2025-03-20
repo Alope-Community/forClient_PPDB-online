@@ -14,7 +14,7 @@ class RegistrationContoller extends Controller
     {
         $registration = Registration::whereUserId(Auth::user()->id)->first();
 
-        return Inertia::render('PendaftaranJalurReguler', [
+        return Inertia::render('pendaftaranJalurReguler', [
             "registration" => $registration
         ]);
     }
@@ -23,7 +23,7 @@ class RegistrationContoller extends Controller
     {
         $registration = Registration::whereUserId(Auth::user()->id)->first();
 
-        return Inertia::render('PendaftaranJalurAfirmasi', [
+        return Inertia::render('pendaftaranJalurAfirmasi', [
             "registration" => $registration
         ]);
     }
