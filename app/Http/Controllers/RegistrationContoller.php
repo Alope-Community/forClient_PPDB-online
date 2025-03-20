@@ -45,11 +45,11 @@ class RegistrationContoller extends Controller
         $fileFields = ['pas_foto', 'kartu_keluarga', 'akte_kelahiran', 'kia_ktp_ortu', 'ijazah', 'skhu_raport'];
 
         $filePaths = collect($fileFields)->mapWithKeys(fn($field) => [
-            $field => $request->file($field)->store("documents/$field")
+            $field => $request->file($field)->store("documents/$field", 'public')
         ])->toArray();
 
         if ($request->jalur_registrasi === 'afirmasi' && $request->hasFile('kip_pkh_pip_sktm')) {
-            $filePaths['kip_pkh_pip_sktm'] = $request->file('kip_pkh_pip_sktm')->store("documents/kip_pkh_pip_sktm");
+            $filePaths['kip_pkh_pip_sktm'] = $request->file('kip_pkh_pip_sktm')->store("documents/kip_pkh_pip_sktm", 'public');
         }
 
         $registration = Registration::create([
