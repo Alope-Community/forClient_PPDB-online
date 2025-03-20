@@ -40,9 +40,9 @@ export default function RegisterData() {
     }, [flash]);
 
     return (
-        <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
-            <div className="w-full mx-20 p-6 bg-white shadow-md rounded-lg border border-secondary text-primary">
-                <h2 className="text-center text-xl font-semibold mb-6">
+        <div className="flex justify-center items-center min-h-screen p-4 bg-cover bg-[url('../image/hero/hero.jpg')] after:content-[''] after:absolute relative after:bg-black/60 after:inset-0">
+            <div className="w-full mx-20 p-6 bg-white shadow-md rounded-lg border border-secondary text-primary z-10">
+                <h2 className="text-center text-2xl font-bold mb-6">
                     Upload Data Pribadi
                 </h2>
                 {alert.message && (
