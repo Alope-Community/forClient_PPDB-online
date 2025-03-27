@@ -32,16 +32,21 @@ class EditProfileController extends Controller
             'nisn' => 'nullable|string|max:20',
             'jarak_rumah' => 'nullable|numeric',
             'asal_sekolah' => 'nullable|string|max:255',
-            'alamat_rumah' => 'nullable|string|max:255',
-            'nama_ayah' => 'nullable|string|max:255',
+            'alamat_rumah' => 'required|string|max:255',
+            'nama_ayah' => 'required|string|max:255',
             'nomor_telepon' => 'nullable|string|max:15',
-            'pekerjaan_ayah' => 'nullable|string|max:255',
+            'pekerjaan_ayah' => 'required|string|max:255',
             'penghasilan_orang_tua' => 'nullable|numeric',
-            'nama_ibu' => 'nullable|string|max:255',
+            'nama_ibu' => 'required|string|max:255',
             'nomor_ibu_hp' => 'nullable|string|max:15',
-            'pekerjaan_ibu' => 'nullable|string|max:255',
+            'pekerjaan_ibu' => 'required|string|max:255',
             'upah_ibu' => 'nullable|numeric',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
+        ], [
+            'required' => ':attribute harus diisi!',
+            'max'      => ':attribute terlalu panjang!',
+            'numeric'  => ':attribute harus berupa angka!',
+            'min'      => ':attribute tidak boleh kurang dari 0!',
         ]);
 
         if ($request->hasFile('photo')) {

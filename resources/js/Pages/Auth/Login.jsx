@@ -129,7 +129,7 @@ export default function Login({ status }) {
                                 Log in
                             </PrimaryButton>
                         </div>
-                        <div className="mt-3 text-center">
+                        <div className="mt-10 text-center">
                             <span>Belum punya akun? </span>
                             <Link
                                 href={route("register")}
