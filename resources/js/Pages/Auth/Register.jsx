@@ -29,8 +29,19 @@ export default function Register() {
                     className="px-3 py-2 text-sm sm:text-base text-secondary rounded-md transition-transform duration-300 border border-secondary hover:bg-secondary hover:text-white flex items-center gap-2 flex-wrap w-full sm:w-auto"
                 >
                     <div className="w-4 h-4 sm:w-5 sm:h-5">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" />
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth={1.5}
+                            stroke="currentColor"
+                            className="size-6"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3"
+                            />
                         </svg>
                     </div>
                     <span>Kembali</span>
@@ -41,11 +52,11 @@ export default function Register() {
                 {/* Bagian Logo dan Judul */}
                 <div className="flex flex-col items-center md:w-1/2 mt-16 sm:mt-0">
                     <h1 className="text-4xl sm:text-5xl font-bold text-center">
-                        MTs LA TAHZAN
+                        MTs PUI CIKASO
                     </h1>
                     <img
                         src="/image/logo.png"
-                        alt="Logo MTs LA TAHZAN"
+                        alt="Logo MTs PUI CIKASO"
                         className="w-64 sm:w-80 mt-6"
                     />
                 </div>

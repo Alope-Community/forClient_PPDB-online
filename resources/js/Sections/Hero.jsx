@@ -1,4 +1,3 @@
-
 export default function Hero() {
     return (
         <div className="relative w-full min-h-[400px] md:min-h-[600px] lg:min-h-[800px] top-16 md:top-0">
@@ -14,19 +13,33 @@ export default function Hero() {
                     Didik Baru
                 </h1>
                 <h2 className="text-xl md:text-3xl lg:text-4xl font-semibold mt-2">
-                    MTs LA TAHZAN
+                    MTs PUI CIKASO
                 </h2>
                 <div className="mt-8 flex items-center space-x-2">
                     <div className="mb-10 md:mb-6 text-white">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth={1.5}
+                            stroke="currentColor"
+                            className="size-6"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                            />
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
+                            />
                         </svg>
                     </div>
                     <p className="text-base md:text-lg">
-                        KP. NYOMPOK RT. 017/008 Carenang Kec.
-                        <br />
-                        Cisoka Kab. Tangerang Banten
+                        3F8X+PJJ, Cikaso, Kec. Kramatmulya, <br /> Kabupaten
+                        Kuningan, Jawa Barat 45553
                     </p>
                 </div>
             </div>

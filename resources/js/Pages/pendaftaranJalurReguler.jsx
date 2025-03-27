@@ -61,11 +61,11 @@ export default function PendaftaranJalurReguler() {
                 <div className="flex justify-center md:mr-20">
                     <div>
                         <h1 className="text-3xl text-center font-bold">
-                            MTs LA TAHZAN
+                            MTs PUI CIKASO
                         </h1>
                         <img
                             src="/image/logo.png"
-                            alt="Logo MTs LA TAHZAN"
+                            alt="Logo MTs PUI CIKASO"
                             className="w-[400px] mt-10 "
                         />
                     </div>

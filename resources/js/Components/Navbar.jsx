@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, usePage } from "@inertiajs/react";
 import Button from "./Button";
-import DropdownWelcome from './DropdownWelcome'
+import DropdownWelcome from "./DropdownWelcome";
 import ButtonComponent from "./Button";
 
 export default function tallNavbar() {
@@ -19,7 +19,7 @@ export default function tallNavbar() {
                             className="h-10 w-10 object-cover"
                         />
                         <span className="ml-2 text-xl font-bold text-primary">
-                            MTS LA TAHZAN
+                            MTs PUI CIKASO
                         </span>
                     </div>
                     <div className="hidden md:flex space-x-6">
@@ -36,21 +36,32 @@ export default function tallNavbar() {
                             >
                                 Daftar PPDB
                                 <div className="ml-1 h-5 w-5">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        strokeWidth={1.5}
+                                        stroke="currentColor"
+                                        className="size-6"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            d="m19.5 8.25-7.5 7.5-7.5-7.5"
+                                        />
                                     </svg>
                                 </div>
                             </button>
                             {dropdownOpen && (
                                 <div className="absolute left-0 mt-2 bg-white shadow-md rounded z-30">
                                     <Link
-                                        href="/ppdb/reguler"
+                                        href="/pendaftaran-jalur-reguler"
                                         className="block px-4 py-2 text-primary hover:bg-gray-100"
                                     >
                                         Jalur Reguler
                                     </Link>
                                     <Link
-                                        href="/ppdb/afirmasi"
+                                        href="/pendaftaran-jalur-afirmasi"
                                         className="block px-4 py-2 text-primary hover:bg-gray-100"
                                     >
                                         Jalur Afirmasi
@@ -65,8 +76,19 @@ export default function tallNavbar() {
                         onClick={() => setSidebarOpen(true)}
                     >
                         <div className="h-8 w-8">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                strokeWidth={1.5}
+                                stroke="currentColor"
+                                className="size-6"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+                                />
                             </svg>
                         </div>
                     </button>
@@ -74,16 +96,28 @@ export default function tallNavbar() {
             </div>
 
             <div
-                className={`fixed top-0 right-0 w-screen h-screen bg-white z-50 transform transition-transform duration-300 ${sidebarOpen ? "translate-x-0" : "translate-x-full"
-                    }`}
+                className={`fixed top-0 right-0 w-screen h-screen bg-white z-50 transform transition-transform duration-300 ${
+                    sidebarOpen ? "translate-x-0" : "translate-x-full"
+                }`}
             >
                 <button
                     className="absolute top-4 right-4 text-gray-600"
                     onClick={() => setSidebarOpen(false)}
                 >
                     <div className="h-6 w-6">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth={1.5}
+                            stroke="currentColor"
+                            className="size-6"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M6 18 18 6M6 6l12 12"
+                            />
                         </svg>
                     </div>
                 </button>
@@ -102,8 +136,19 @@ export default function tallNavbar() {
                         >
                             Daftar PPDB
                             <div className="ml-1 h-5 w-5">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    strokeWidth={1.5}
+                                    stroke="currentColor"
+                                    className="size-6"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        d="m19.5 8.25-7.5 7.5-7.5-7.5"
+                                    />
                                 </svg>
                             </div>
                         </button>

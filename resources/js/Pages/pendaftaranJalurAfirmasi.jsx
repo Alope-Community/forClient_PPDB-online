@@ -63,7 +63,7 @@ export default function PendaftaranJalurAfirmasi() {
                 <div className="relative z-10 items-center lg:mr-20">
                     <img
                         src="/image/logo.png"
-                        alt="Logo MTs LA TAHZAN"
+                        alt="Logo MTs PUI CIKASO"
                         className="w-[400px] mt-10"
                     />
                 </div>
