@@ -1,4 +1,8 @@
+import { usePage } from "@inertiajs/react";
+
 export default function Hero() {
+    const { info } = usePage().props;
+
     return (
         <div className="relative w-full min-h-[400px] md:min-h-[600px] lg:min-h-[800px] top-16 md:top-0">
             <img
@@ -13,10 +17,10 @@ export default function Hero() {
                     Didik Baru
                 </h1>
                 <h2 className="text-xl md:text-3xl lg:text-4xl font-semibold mt-2">
-                    MTs PUI CIKASO
+                    MTs PUI
                 </h2>
-                <div className="mt-8 flex items-center space-x-2">
-                    <div className="mb-10 md:mb-6 text-white">
+                <div className="flex items-center space-x-2 mt-5">
+                    <div className="text-white">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
@@ -37,10 +41,7 @@ export default function Hero() {
                             />
                         </svg>
                     </div>
-                    <p className="text-base md:text-lg">
-                        3F8X+PJJ, Cikaso, Kec. Kramatmulya, <br /> Kabupaten
-                        Kuningan, Jawa Barat 45553
-                    </p>
+                    <p className="text-base md:text-lg">{info["Alamat"]}</p>
                 </div>
             </div>
         </div>

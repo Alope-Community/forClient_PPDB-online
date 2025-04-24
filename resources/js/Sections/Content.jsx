@@ -10,8 +10,8 @@ export default function Content() {
                 <div className="md:w-1/2 text-center md:text-left mt-4 md:mt-0">
                     <h2 className="text-3xl font-bold">MTs PUI CIKASO</h2>
                     <p className="mt-4 text-primary">
-                        {info.deskripsi_sekolah ||
-                            "Deskripsi sekolah belum tersedia."}
+                        {info["Kata Selamat Datang"] ||
+                            "Kata Selamat Datang belum tersedia."}
                     </p>
                     <div className="mt-8">
                         <ButtonComponent
@@ -32,40 +32,38 @@ export default function Content() {
             </div>
             <div className="mt-16 bg-secondary text-white py-12 text-center rounded-lg shadow-lg">
                 <p className="text-xl italic font-semibold">
-                    "{info.motto_sekolah || "Motto belum tersedia."}"
+                    "{info["Motto Sekolah"] || "Motto belum tersedia."}"
                 </p>
             </div>
             <div className="mt-16 text-center">
                 <h2 className="text-3xl font-bold">Program Unggulan</h2>
             </div>
             <div className="mt-8 grid gap-8">
-                {info.program_keunggulan &&
-                    JSON.parse(info.program_keunggulan).map(
-                        (program, index) => (
-                            <div
-                                key={index}
-                                className={`flex flex-col md:flex-row ${
-                                    index % 2 === 0
-                                        ? "md:flex-row"
-                                        : "md:flex-row-reverse"
-                                } items-center gap-6`}
-                            >
-                                <img
-                                    src={`/image/${program.image}`}
-                                    alt={program.title}
-                                    className="w-full md:w-1/2 h-60 object-cover rounded-md"
-                                />
-                                <div className="md:w-1/2">
-                                    <h3 className="text-xl font-semibold">
-                                        {program.title}
-                                    </h3>
-                                    <p className="mt-2 text-primary">
-                                        {program.desc}
-                                    </p>
-                                </div>
+                {info["Program Unggulan"] &&
+                    info["Program Unggulan"].map((program, index) => (
+                        <div
+                            key={index}
+                            className={`flex flex-col md:flex-row ${
+                                index % 2 === 0
+                                    ? "md:flex-row"
+                                    : "md:flex-row-reverse"
+                            } items-center gap-6`}
+                        >
+                            <img
+                                src={`/image/${program.image}`}
+                                alt={program.title}
+                                className="w-full md:w-1/2 h-60 object-cover rounded-md"
+                            />
+                            <div className="md:w-1/2">
+                                <h3 className="text-xl font-semibold">
+                                    {program.title}
+                                </h3>
+                                <p className="mt-2 text-primary">
+                                    {program.desc}
+                                </p>
                             </div>
-                        )
-                    )}
+                        </div>
+                    ))}
             </div>
 
             <div className="mt-16">
@@ -79,8 +77,8 @@ export default function Content() {
                         </h3>
                         <p className="mt-4 mx-5 text-gray-700">
                             <ul className="mt-4 list-disc text-gray-700">
-                                {info.visi ? (
-                                    JSON.parse(info.visi).map((visi, index) => (
+                                {info.Visi ? (
+                                    JSON.parse(info.Visi).map((visi, index) => (
                                         <li key={index} className="my-4">
                                             {visi}
                                         </li>
@@ -96,8 +94,11 @@ export default function Content() {
                             Misi
                         </h3>
                         <ul className="mt-4 mx-5 list-disc text-gray-700">
-                            {info.misi ? (
-                                JSON.parse(info.misi).map((misi, index) => (
+                            {info.Misi ? (
+                                (Array.isArray(info.Misi)
+                                    ? info.Misi
+                                    : JSON.parse(info.Misi)
+                                ).map((misi, index) => (
                                     <li key={index} className="my-4">
                                         {misi}
                                     </li>
@@ -112,8 +113,8 @@ export default function Content() {
                     <h2 className="text-3xl font-bold">Ekstrakurikuler</h2>
                 </div>
                 <div className="mt-8 grid md:grid-cols-3 sm:grid-cols-2 gap-8">
-                    {info.eskul ? (
-                        JSON.parse(info.eskul).map((eskul, index) => (
+                    {info.Eskul ? (
+                        JSON.parse(info.Eskul).map((eskul, index) => (
                             <div
                                 key={index}
                                 className="bg-white shadow-md rounded-lg p-6 text-center hover:bg-secondary hover:text-white transition-all duration-300 border-2"
