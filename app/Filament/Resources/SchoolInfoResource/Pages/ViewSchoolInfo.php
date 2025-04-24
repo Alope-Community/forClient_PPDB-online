@@ -16,4 +16,15 @@ class ViewSchoolInfo extends ViewRecord
             Actions\EditAction::make(),
         ];
     }
+
+    protected function mutateFormDataBeforeFill(array $data): array
+    {
+        if ($this->record->type === 'picture') {
+            $data['image'] = $this->record->value;
+        } else {
+            $data['image'] = null;
+        }
+
+        return $data;
+    }
 }

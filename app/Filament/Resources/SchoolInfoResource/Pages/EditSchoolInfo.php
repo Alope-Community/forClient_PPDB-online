@@ -17,4 +17,31 @@ class EditSchoolInfo extends EditRecord
             Actions\DeleteAction::make(),
         ];
     }
+
+    protected function mutateFormDataBeforeFill(array $data): array
+    {
+
+        if ($this->record->type === 'picture') {
+            $data['image'] = $this->record->value;
+        } else {
+            $data['image'] = null;
+        }
+
+        return $data;
+    }
+
+    protected function afterSave(): void
+    {
+        $record = $this->record;
+
+        if ($record->type === 'picture') {
+            $imagePath = $this->data['image'] ?? null;
+
+            if ($imagePath) {
+                $record->update([
+                    'value' => $imagePath,
+                ]);
+            }
+        }
+    }
 }

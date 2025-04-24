@@ -41,11 +41,36 @@ class SchoolInfoResource extends Resource
                     ->required()
                     ->unique(ignoreRecord: true),
 
+                Forms\Components\Radio::make('type')
+                    ->label('Tipe')
+                    ->reactive()
+                    ->options([
+                        'text' => 'Text',
+                        'picture' => 'Picture',
+                    ])
+                    ->default('text')
+                    ->afterStateUpdated(fn($state, callable $set) => $set('value', null))
+                    ->required(),
+
                 FilamentJsonColumn::make('value')
                     ->label('Value')
                     ->columnSpanFull()
                     ->viewerOnly(fn($livewire) => $livewire instanceof Pages\ViewSchoolInfo)
                     ->accent('#00923f')
+                    ->visible(fn($get) => $get('type') == 'text')
+                    ->required(fn($get) => $get('type') == 'text'),
+
+                Forms\Components\FileUpload::make('image')
+                    ->label('Gambar')
+                    ->visible(fn($get) => $get('type') == 'picture')
+                    ->required(fn($get) => $get('type') == 'picture')
+                    ->acceptedFileTypes(['image/*'])
+                    ->downloadable()
+                    ->openable()
+                    ->columnSpanFull()
+                    ->deletable()
+                    ->disk('public')
+                    ->directory('documents')
                     ->required(),
             ]);
     }
