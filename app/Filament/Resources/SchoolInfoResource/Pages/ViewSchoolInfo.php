@@ -20,11 +20,11 @@ class ViewSchoolInfo extends ViewRecord
     protected function mutateFormDataBeforeFill(array $data): array
     {
         if ($this->record->type === 'picture') {
-            $data['image'] = $this->record->value;
+            $json = json_decode($this->record->value, true);
+            $data['image'] = $json['image'] ?? null;
         } else {
             $data['image'] = null;
         }
-
         return $data;
     }
 }

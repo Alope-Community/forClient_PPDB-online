@@ -20,9 +20,9 @@ class EditSchoolInfo extends EditRecord
 
     protected function mutateFormDataBeforeFill(array $data): array
     {
-
         if ($this->record->type === 'picture') {
-            $data['image'] = $this->record->value;
+            $json = json_decode($this->record->value, true);
+            $data['image'] = $json['image'] ?? null;
         } else {
             $data['image'] = null;
         }
@@ -30,18 +30,14 @@ class EditSchoolInfo extends EditRecord
         return $data;
     }
 
-    protected function afterSave(): void
+    protected function mutateFormDataBeforeSave(array $data): array
     {
-        $record = $this->record;
-
-        if ($record->type === 'picture') {
-            $imagePath = $this->data['image'] ?? null;
-
-            if ($imagePath) {
-                $record->update([
-                    'value' => $imagePath,
-                ]);
-            }
+        if ($data['type'] === 'picture' && isset($data['image'])) {
+            $data['value'] = json_encode(['image' => $data['image']]);
+            $data['key'] = asset('storage/' . $data['image']);
         }
+
+        unset($data['image']);
+        return $data;
     }
 }

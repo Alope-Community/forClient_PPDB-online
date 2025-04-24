@@ -38,7 +38,18 @@ class SchoolInfoResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('key')
                     ->label('Key')
-                    ->required()
+                    ->disabled(fn($get) => $get('type') === 'picture')
+                    ->helperText('Jika memilih tipe "Picture", maka key akan otomatis berisi link gambar dan tidak bisa diubah.')
+                    ->suffixAction(
+                        \Filament\Forms\Components\Actions\Action::make('copy')
+                            ->icon('heroicon-s-clipboard-document')
+                            ->tooltip('Copy ke clipboard')
+                            ->action(function ($livewire, $state) {
+                                $livewire->js(
+                                    'window.navigator.clipboard.writeText("' . $state . '")'
+                                );
+                            })
+                    )
                     ->unique(ignoreRecord: true),
 
                 Forms\Components\Radio::make('type')
@@ -70,8 +81,7 @@ class SchoolInfoResource extends Resource
                     ->columnSpanFull()
                     ->deletable()
                     ->disk('public')
-                    ->directory('documents')
-                    ->required(),
+                    ->directory('documents'),
             ]);
     }
 
@@ -82,7 +92,20 @@ class SchoolInfoResource extends Resource
                 Tables\Columns\TextColumn::make('key')
                     ->label('Key')
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->copyable()
+                    ->copyMessage('Disalin ke clipboard!')
+                    ->tooltip('Klik untuk salin'),
+
+                Tables\Columns\TextColumn::make('type')
+                    ->label('Tipe')
+                    ->searchable()
+                    ->badge()
+                    ->colors([
+                        'info' => 'picture',
+                        'success' => 'text',
+                    ])
+                    ->sortable(),
 
                 Tables\Columns\TextColumn::make('value')
                     ->label('Value')

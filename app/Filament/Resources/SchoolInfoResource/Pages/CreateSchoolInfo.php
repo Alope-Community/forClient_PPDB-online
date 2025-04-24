@@ -10,18 +10,14 @@ class CreateSchoolInfo extends CreateRecord
 {
     protected static string $resource = SchoolInfoResource::class;
 
-    protected function afterSave(): void
+    protected function mutateFormDataBeforeCreate(array $data): array
     {
-        $record = $this->record;
-
-        if ($record->type === 'picture') {
-            $imagePath = $this->data['image'] ?? null;
-
-            if ($imagePath) {
-                $record->update([
-                    'value' => $imagePath,
-                ]);
-            }
+        if ($data['type'] === 'picture' && isset($data['image'])) {
+            $data['value'] = json_encode(['image' => $data['image']]);
+            $data['key'] = asset('storage/' . $data['image']);
         }
+
+        unset($data['image']);
+        return $data;
     }
 }
