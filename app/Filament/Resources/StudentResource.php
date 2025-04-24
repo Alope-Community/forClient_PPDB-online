@@ -8,6 +8,7 @@ use App\Filament\Resources\StudentResource\RelationManagers;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\FormsComponent;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Actions\ExportBulkAction;
@@ -146,6 +147,57 @@ class StudentResource extends Resource
                             ])
                             ->required(),
                     ]),
+                Forms\Components\Section::make('Verifikasi Dokumen')
+                    ->description('Dokumen yang diunggah untuk verifikasi.')
+                    ->icon('heroicon-o-document')
+                    ->collapsible()
+                    ->schema([
+                        Forms\Components\Repeater::make('documents')
+                            ->label('Dokumen')
+                            ->schema([
+                                Forms\Components\Select::make('document_type')
+                                    ->label('Jenis Dokumen')
+                                    ->options([
+                                        'kk' => 'Kartu Keluarga',
+                                        'ktp' => 'KTP',
+                                        'akta' => 'Akta Kelahiran',
+                                        'ijazah' => 'Ijazah',
+                                        'lainnya' => 'Lainnya',
+                                    ])
+                                    ->required(),
+                                Forms\Components\FileUpload::make('file_path')
+                                    ->label('Unggah File')
+                                    ->disk('public')
+                                    ->directory('documents')
+                                    ->required()
+                                    ->previewable(true),
+                                Forms\Components\ToggleButtons::make('status')
+                                    ->label('Status')
+                                    ->inline()
+                                    ->default('menunggu')
+                                    ->options([
+                                        'menunggu' => 'Menunggu',
+                                        'diverifikasi' => 'Diverifikasi',
+                                        'ditolak' => 'Ditolak',
+                                    ])
+                                    ->icons([
+                                        'menunggu' => 'heroicon-o-clock',
+                                        'diverifikasi' => 'heroicon-o-check-circle',
+                                        'ditolak' => 'heroicon-o-x-circle',
+                                    ])
+                                    ->colors([
+                                        'menunggu' => 'warning',
+                                        'diverifikasi' => 'success',
+                                        'ditolak' => 'danger',
+                                    ]),
+                                Forms\Components\Textarea::make('message')
+                                    ->label('Pesan')
+                                    ->rows(2)
+                                    ->placeholder('Berikan pesan jika dokumen ditolak')
+                            ])
+                    ])
+                    ->visible(fn($livewire) => $livewire instanceof Pages\EditStudent || $livewire instanceof Pages\ViewStudent),
+
             ]);
     }
 
@@ -185,11 +237,11 @@ class StudentResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                     ExportBulkAction::make()
-                    ->exporter(UserExporter::class)
-                    ->formats([
-                        \Filament\Actions\Exports\Enums\ExportFormat::Xlsx,
-                    ])
-                    ->fileDisk('export')
+                        ->exporter(UserExporter::class)
+                        ->formats([
+                            \Filament\Actions\Exports\Enums\ExportFormat::Xlsx,
+                        ])
+                        ->fileDisk('export')
                 ]),
             ]);
     }

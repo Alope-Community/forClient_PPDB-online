@@ -11,7 +11,7 @@ class SchoolInfo extends Model
 
     protected $table = 'school_infos';
 
-    protected $fillable = ['key', 'value'];
+    protected $fillable = ['key', 'type', 'value'];
 
     protected $casts = [
         'value' => 'json',

@@ -12,7 +12,7 @@ class HomeController extends Controller
     {
         $data = SchoolInfo::all()->pluck('value', 'key');
         return Inertia::render('Welcome', [
-            'info' => $data
+            'info' => $data,
         ]);
     }
 }
