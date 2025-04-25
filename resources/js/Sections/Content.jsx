@@ -1,4 +1,4 @@
-import { usePage } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
 import ButtonComponent from "../Components/Button";
 
 export default function Content() {
@@ -19,6 +19,7 @@ export default function Content() {
                             variant="secondary"
                             size="lg"
                             color="white"
+                            link={"/pendaftaran-jalur-reguler"}
                         />
                     </div>
                 </div>
@@ -39,8 +40,13 @@ export default function Content() {
                 <h2 className="text-3xl font-bold">Program Unggulan</h2>
             </div>
             <div className="mt-8 grid gap-8">
-                {info["Program Unggulan"] &&
-                    info["Program Unggulan"].map((program, index) => (
+                {info["Program Unggulan"] ? (
+                    (Array.isArray(info["Program Unggulan"])
+                        ? info["Program Unggulan"]
+                        : typeof info["Program Unggulan"] === "string"
+                        ? JSON.parse(info["Program Unggulan"])
+                        : Object.values(info["Program Unggulan"])
+                    ).map((program, index) => (
                         <div
                             key={index}
                             className={`flex flex-col md:flex-row ${
@@ -50,7 +56,7 @@ export default function Content() {
                             } items-center gap-6`}
                         >
                             <img
-                                src={`/image/${program.image}`}
+                                src={`${program.image}`}
                                 alt={program.title}
                                 className="w-full md:w-1/2 h-60 object-cover rounded-md"
                             />
@@ -63,7 +69,12 @@ export default function Content() {
                                 </p>
                             </div>
                         </div>
-                    ))}
+                    ))
+                ) : (
+                    <p className="text-center text-gray-500">
+                        Program belum tersedia.
+                    </p>
+                )}
             </div>
 
             <div className="mt-16">
@@ -78,7 +89,12 @@ export default function Content() {
                         <p className="mt-4 mx-5 text-gray-700">
                             <ul className="mt-4 list-disc text-gray-700">
                                 {info.Visi ? (
-                                    JSON.parse(info.Visi).map((visi, index) => (
+                                    (Array.isArray(info.Visi)
+                                        ? info.Visi
+                                        : typeof info.Visi === "string"
+                                        ? JSON.parse(info.Visi)
+                                        : Object.values(info.Visi)
+                                    ).map((visi, index) => (
                                         <li key={index} className="my-4">
                                             {visi}
                                         </li>
@@ -97,7 +113,9 @@ export default function Content() {
                             {info.Misi ? (
                                 (Array.isArray(info.Misi)
                                     ? info.Misi
-                                    : JSON.parse(info.Misi)
+                                    : typeof info.Misi === "string"
+                                    ? JSON.parse(info.Misi)
+                                    : Object.values(info.Misi)
                                 ).map((misi, index) => (
                                     <li key={index} className="my-4">
                                         {misi}
@@ -114,16 +132,16 @@ export default function Content() {
                 </div>
                 <div className="mt-8 grid md:grid-cols-3 sm:grid-cols-2 gap-8">
                     {info.Eskul ? (
-                        JSON.parse(info.Eskul).map((eskul, index) => (
+                        (Array.isArray(info.Eskul)
+                            ? info.Eskul
+                            : typeof info.Eskul === "string"
+                            ? JSON.parse(info.Eskul)
+                            : Object.values(info.Eskul)
+                        ).map((eskul, index) => (
                             <div
                                 key={index}
                                 className="bg-white shadow-md rounded-lg p-6 text-center hover:bg-secondary hover:text-white transition-all duration-300 border-2"
                             >
-                                {/* <img
-                                src={`/image/${eskul.image}`}
-                                alt={eskul}
-                                className="w-20 h-20 mx-auto rounded-full object-cover"
-                            /> */}
                                 <h3 className="text-lg font-semibold">
                                     {eskul}
                                 </h3>

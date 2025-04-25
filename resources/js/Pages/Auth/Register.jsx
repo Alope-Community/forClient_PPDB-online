@@ -81,7 +81,7 @@ export default function Register() {
                             <TextInput
                                 id="name"
                                 name="name"
-                                placeholder="Masukan nama calon siswa"
+                                // placeholder="Masukan nama calon siswa"
                                 value={data.name}
                                 className="mt-2 block w-full border-secondary"
                                 onChange={(e) =>
@@ -115,7 +115,7 @@ export default function Register() {
                             <TextInput
                                 id="nisn"
                                 name="nisn"
-                                placeholder="Masukan NISN calon siswa"
+                                // placeholder="Masukan NISN calon siswa"
                                 value={data.nisn}
                                 className="mt-1 block w-full border-secondary"
                                 onChange={(e) =>
@@ -140,7 +140,7 @@ export default function Register() {
                                 id="email"
                                 type="email"
                                 name="email"
-                                placeholder="Masukan email calon siswa"
+                                // placeholder="Masukan email calon siswa"
                                 value={data.email}
                                 className="mt-2 block w-full border-secondary"
                                 onChange={(e) =>
@@ -165,7 +165,7 @@ export default function Register() {
                                 id="password"
                                 type="password"
                                 name="password"
-                                placeholder="Masukan password calon siswa"
+                                // placeholder="Masukan password calon siswa"
                                 value={data.password}
                                 className="mt-2 block w-full border-secondary"
                                 onChange={(e) =>

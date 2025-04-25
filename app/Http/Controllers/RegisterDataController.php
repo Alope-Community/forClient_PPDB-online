@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\UserDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Validation\ValidationException;
 
 class RegisterDataController extends Controller
 {
@@ -61,7 +59,7 @@ class RegisterDataController extends Controller
             UserDetail::create($formattedData);
             return redirect()->route('dashboard')->with('success', 'Data berhasil disimpan!');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Terjadi kesalahan, coba lagi.');
+            return redirect()->back()->with('error', 'Terjadi kesalahan, coba lagi.', $e);
         }
     }
 }
