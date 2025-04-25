@@ -165,12 +165,15 @@ class StudentResource extends Resource
                                         'lainnya' => 'Lainnya',
                                     ])
                                     ->required(),
+
                                 Forms\Components\FileUpload::make('file_path')
                                     ->label('Unggah File')
                                     ->disk('public')
+                                    ->previewable()
+                                    ->openable()
                                     ->directory('documents')
-                                    ->required()
-                                    ->previewable(true),
+                                    ->required(),
+
                                 Forms\Components\ToggleButtons::make('status')
                                     ->label('Status')
                                     ->inline()
