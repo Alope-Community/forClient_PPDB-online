@@ -23,8 +23,8 @@ class ViewStudent extends ViewRecord
             return [
                 'document_type' => $document->document_type,
                 'file_path' => $document->file_path,
-                'status' => $document->verification->status,
-                'message' => $document->verification->message,
+                'status' => $document->verification?->status,
+                'message' => $document->verification?->message,
             ];
         })->toArray();
 
