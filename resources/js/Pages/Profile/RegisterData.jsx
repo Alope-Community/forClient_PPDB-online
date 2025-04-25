@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { router, usePage } from '@inertiajs/react';
+import { router, usePage } from "@inertiajs/react";
 import ButtonComponent from "../../Components/Button";
 
 export default function RegisterData() {
-    const { errors, flash } = usePage().props
-    const [alert, setAlert] = useState({ type: '', message: '' });
+    const { errors, flash } = usePage().props;
+    const [alert, setAlert] = useState({ type: "", message: "" });
     const [formData, setFormData] = useState({
         fatherName: "",
         motherName: "",
@@ -18,9 +18,28 @@ export default function RegisterData() {
         schoolOrigin: "",
     });
 
+    const [otherFormParentJob, setOtherFormParentJob] = useState({
+        father: false,
+        mother: false,
+    });
+
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
+        if (value == "lainnya") {
+            if (name == "fatherJob") {
+                setOtherFormParentJob((prev) => ({
+                    ...prev,
+                    father: true,
+                }));
+            } else if (name == "motherJob") {
+                setOtherFormParentJob((prev) => ({
+                    ...prev,
+                    mother: true,
+                }));
+            }
+        } else {
+            setFormData({ ...formData, [name]: value });
+        }
     };
 
     const handleSubmit = (e) => {
@@ -30,12 +49,12 @@ export default function RegisterData() {
 
     useEffect(() => {
         if (flash.success) {
-            setAlert({ type: 'success', message: flash.success });
-            setTimeout(() => setAlert({ type: '', message: '' }), 3000);
+            setAlert({ type: "success", message: flash.success });
+            setTimeout(() => setAlert({ type: "", message: "" }), 3000);
         }
         if (flash.error) {
-            setAlert({ type: 'error', message: flash.error });
-            setTimeout(() => setAlert({ type: '', message: '' }), 3000);
+            setAlert({ type: "error", message: flash.error });
+            setTimeout(() => setAlert({ type: "", message: "" }), 3000);
         }
     }, [flash]);
 
@@ -46,80 +65,305 @@ export default function RegisterData() {
                     Upload Data Pribadi
                 </h2>
                 {alert.message && (
-                    <div className={`p-3 mb-4 text-white rounded ${alert.type === 'success' ? 'bg-green-500' : 'bg-red-500'}`}>
+                    <div
+                        className={`p-3 mb-4 text-white rounded ${
+                            alert.type === "success"
+                                ? "bg-green-500"
+                                : "bg-red-500"
+                        }`}
+                    >
                         {alert.message}
                     </div>
                 )}
                 <div className="mt-4 w-full">
-                    <form className="grid grid-cols-2 gap-6" onSubmit={handleSubmit}>
+                    <form
+                        className="grid grid-cols-2 gap-6"
+                        onSubmit={handleSubmit}
+                    >
                         <div>
-                            <label className="block text-sm font-medium mb-1">Nama Ayah</label>
-                            <input name='fatherName' onChange={handleChange} type="text" placeholder="Nama Ayah" className={`w-full p-2 border rounded-md ${errors.fatherName && formData.fatherName === '' ? 'border-red-500' : 'border-primary/50'}`} />
-                            {errors.fatherName && formData.fatherName === '' && <p className="text-red-500 text-sm">{errors.fatherName}</p>}
+                            <label className="block text-sm font-medium mb-1">
+                                Nama Ayah
+                            </label>
+                            <input
+                                name="fatherName"
+                                onChange={handleChange}
+                                type="text"
+                                placeholder="Nama Ayah"
+                                className={`w-full p-2 border rounded-md ${
+                                    errors.fatherName &&
+                                    formData.fatherName === ""
+                                        ? "border-red-500"
+                                        : "border-primary/50"
+                                }`}
+                            />
+                            {errors.fatherName &&
+                                formData.fatherName === "" && (
+                                    <p className="text-red-500 text-sm">
+                                        {errors.fatherName}
+                                    </p>
+                                )}
                         </div>
                         <div>
-                            <label className="block text-sm font-medium mb-1">Nama Ibu</label>
-                            <input name='motherName' onChange={handleChange} type="text" placeholder="Nama Ibu" className={`w-full p-2 border rounded-md ${errors.motherName && formData.motherName === '' ? 'border-red-500' : 'border-primary/50'}`} />
-                            {errors.motherName && formData.motherName === '' && <p className="text-red-500 text-sm">{errors.motherName}</p>}
+                            <label className="block text-sm font-medium mb-1">
+                                Nama Ibu
+                            </label>
+                            <input
+                                name="motherName"
+                                onChange={handleChange}
+                                type="text"
+                                placeholder="Nama Ibu"
+                                className={`w-full p-2 border rounded-md ${
+                                    errors.motherName &&
+                                    formData.motherName === ""
+                                        ? "border-red-500"
+                                        : "border-primary/50"
+                                }`}
+                            />
+                            {errors.motherName &&
+                                formData.motherName === "" && (
+                                    <p className="text-red-500 text-sm">
+                                        {errors.motherName}
+                                    </p>
+                                )}
+                        </div>
+                        <div className="flex  gap-3">
+                            <div className="flex-1">
+                                <label className="block text-sm font-medium mb-1">
+                                    Pekerjaan Ayah
+                                </label>
+                                <select
+                                    name="fatherJob"
+                                    onChange={handleChange}
+                                    className={`w-full p-2 border rounded-md ${
+                                        errors.fatherJob &&
+                                        formData.fatherJob === ""
+                                            ? "border-red-500"
+                                            : "border-primary/50"
+                                    }`}
+                                >
+                                    <option value="">Pilih Salah Satu</option>
+                                    <option value="pegawai">Pegawai</option>
+                                    <option value="wiraswasta">
+                                        Wiraswasta
+                                    </option>
+                                    <option value="pedagang">Pedagang</option>
+                                    <option value="lainnya">Lainnya</option>
+                                </select>
+                                {errors.fatherJob &&
+                                    formData.fatherJob === "" && (
+                                        <p className="text-red-500 text-sm">
+                                            {errors.fatherJob}
+                                        </p>
+                                    )}
+                            </div>
+                            {otherFormParentJob.father && (
+                                <div className="flex-[2]">
+                                    <label className="block text-sm font-medium mb-1 invisible">
+                                        Pekerjaan Ayah
+                                    </label>
+                                    <input
+                                        name="fatherJob"
+                                        onChange={handleChange}
+                                        type="text"
+                                        placeholder="Pekerjaan Ayah"
+                                        className={`w-full p-2 border rounded-md ${
+                                            errors.fatherJob &&
+                                            formData.fatherJob === ""
+                                                ? "border-red-500"
+                                                : "border-primary/50"
+                                        }`}
+                                    />
+                                </div>
+                            )}
+                        </div>
+                        <div className="flex gap-3">
+                            <div className="flex-1">
+                                <label className="block text-sm font-medium mb-1">
+                                    Pekerjaan Ibu
+                                </label>
+                                <select
+                                    name="motherJob"
+                                    onChange={handleChange}
+                                    className={`w-full p-2 border rounded-md ${
+                                        errors.motherJob &&
+                                        formData.motherJob === ""
+                                            ? "border-red-500"
+                                            : "border-primary/50"
+                                    }`}
+                                >
+                                    <option value="">Pilih Salah Satu</option>
+                                    <option value="IRT">IRT</option>
+                                    <option value="pedagang">Pedagang</option>
+                                    <option value="pegawai">Pegawai</option>
+                                    <option value="lainnya">Lainnya</option>
+                                </select>
+                                {errors.motherJob &&
+                                    formData.motherJob === "" && (
+                                        <p className="text-red-500 text-sm">
+                                            {errors.motherJob}
+                                        </p>
+                                    )}
+                            </div>
+                            {otherFormParentJob.mother && (
+                                <div className="flex-[2]">
+                                    <label className="block text-sm font-medium mb-1 invisible">
+                                        Pekerjaan Ibu
+                                    </label>
+                                    <input
+                                        name="motherJob"
+                                        onChange={handleChange}
+                                        type="text"
+                                        placeholder="Pekerjaan Orang Tua"
+                                        className={`w-full p-2 border rounded-md ${
+                                            errors.motherJob &&
+                                            formData.motherJob === ""
+                                                ? "border-red-500"
+                                                : "border-primary/50"
+                                        }`}
+                                    />
+                                </div>
+                            )}
                         </div>
                         <div>
-                            <label className="block text-sm font-medium mb-1">Nomor Telepon Orang Tua</label>
-                            <input name='phoneNumber' onChange={handleChange} type="text" placeholder="Nomor Telepon Orang Tua" className={`w-full p-2 border rounded-md ${errors.phoneNumber && formData.phoneNumber === '' ? 'border-red-500' : 'border-primary/50'}`} />
-                            {errors.phoneNumber && formData.phoneNumber === '' && <p className="text-red-500 text-sm">{errors.phoneNumber}</p>}
+                            <label className="block text-sm font-medium mb-1">
+                                Penghasilan Orang Tua
+                            </label>
+                            <input
+                                name="parentSalary"
+                                onChange={handleChange}
+                                type="number"
+                                placeholder="Penghasilan Orang Tua"
+                                className={`w-full p-2 border rounded-md ${
+                                    errors.parentSalary &&
+                                    formData.parentSalary === ""
+                                        ? "border-red-500"
+                                        : "border-primary/50"
+                                }`}
+                            />
+                            {errors.parentSalary &&
+                                formData.parentSalary === "" && (
+                                    <p className="text-red-500 text-sm">
+                                        {errors.parentSalary}
+                                    </p>
+                                )}
                         </div>
                         <div>
-                            <label className="block text-sm font-medium mb-1">Pekerjaan Ayah</label>
-                            <select name="fatherJob" onChange={handleChange} className={`w-full p-2 border rounded-md ${errors.fatherJob && formData.fatherJob === '' ? 'border-red-500' : 'border-primary/50'}`}>
-                                <option value="">Pilih Salah Satu</option>
-                                <option value="pegawai">Pegawai</option>
-                                <option value="wiraswasta">Wiraswasta</option>
-                                <option value="pedagang">Pedagang</option>
-                                <option value="lainnya">Lainnya</option>
-                            </select>
-                            {errors.fatherJob && formData.fatherJob === '' && <p className="text-red-500 text-sm">{errors.fatherJob}</p>}
+                            <label className="block text-sm font-medium mb-1">
+                                Nomor Telepon Orang Tua
+                            </label>
+                            <input
+                                name="phoneNumber"
+                                onChange={handleChange}
+                                type="text"
+                                placeholder="Nomor Telepon Orang Tua"
+                                className={`w-full p-2 border rounded-md ${
+                                    errors.phoneNumber &&
+                                    formData.phoneNumber === ""
+                                        ? "border-red-500"
+                                        : "border-primary/50"
+                                }`}
+                            />
+                            {errors.phoneNumber &&
+                                formData.phoneNumber === "" && (
+                                    <p className="text-red-500 text-sm">
+                                        {errors.phoneNumber}
+                                    </p>
+                                )}
                         </div>
                         <div>
-                            <label className="block text-sm font-medium mb-1">Pekerjaan Ibu</label>
-                            <select name="motherJob" onChange={handleChange} className={`w-full p-2 border rounded-md ${errors.motherJob && formData.motherJob === '' ? 'border-red-500' : 'border-primary/50'}`}>
-                                <option value="">Pilih Salah Satu</option>
-                                <option value="IRT">IRT</option>
-                                <option value="pedagang">Pedagang</option>
-                                <option value="pegawai">Pegawai</option>
-                                <option value="lainnya">Lainnya</option>
-                            </select>
-                            {errors.motherJob && formData.motherJob === '' && <p className="text-red-500 text-sm">{errors.motherJob}</p>}
+                            <label className="block text-sm font-medium mb-1">
+                                Jarak Rumah Ke Sekolah (KM)
+                            </label>
+                            <input
+                                name="distance"
+                                onChange={handleChange}
+                                type="number"
+                                placeholder="Jarak Rumah Ke Sekolah (KM)"
+                                className={`w-full p-2 border rounded-md ${
+                                    errors.distance && formData.distance === ""
+                                        ? "border-red-500"
+                                        : "border-primary/50"
+                                }`}
+                            />
+                            {errors.distance && formData.distance === "" && (
+                                <p className="text-red-500 text-sm">
+                                    {errors.distance}
+                                </p>
+                            )}
                         </div>
                         <div>
-                            <label className="block text-sm font-medium mb-1">Penghasilan Orang Tua</label>
-                            <input name='parentSalary' onChange={handleChange} type="number" placeholder="Penghasilan Orang Tua" className={`w-full p-2 border rounded-md ${errors.parentSalary && formData.parentSalary === '' ? 'border-red-500' : 'border-primary/50'}`} />
-                            {errors.parentSalary && formData.parentSalary === '' && <p className="text-red-500 text-sm">{errors.parentSalary}</p>}
-                        </div>
-                        <div>
-                            <label className="block text-sm font-medium mb-1">Jarak Rumah Ke Sekolah (KM)</label>
-                            <input name="distance" onChange={handleChange} type="number" placeholder="Jarak Rumah Ke Sekolah (KM)" className={`w-full p-2 border rounded-md ${errors.distance && formData.distance === '' ? 'border-red-500' : 'border-primary/50'}`} />
-                            {errors.distance && formData.distance === '' && <p className="text-red-500 text-sm">{errors.distance}</p>}
-                        </div>
-                        <div>
-                            <label className="block text-sm font-medium mb-1">Biaya Ongkos Sekolah (RP)</label>
-                            <input name="schoolExpense" onChange={handleChange} type="number" placeholder="Jarak Rumah Ke Sekolah (KM)" className={`w-full p-2 border rounded-md ${errors.schoolExpense && formData.schoolExpense === '' ? 'border-red-500' : 'border-primary/50'}`} />
-                            {errors.schoolExpense && formData.schoolExpense === '' && <p className="text-red-500 text-sm">{errors.schoolExpense}</p>}
+                            <label className="block text-sm font-medium mb-1">
+                                Biaya Ongkos Sekolah (RP)
+                            </label>
+                            <input
+                                name="schoolExpense"
+                                onChange={handleChange}
+                                type="number"
+                                placeholder="Jarak Rumah Ke Sekolah (KM)"
+                                className={`w-full p-2 border rounded-md ${
+                                    errors.schoolExpense &&
+                                    formData.schoolExpense === ""
+                                        ? "border-red-500"
+                                        : "border-primary/50"
+                                }`}
+                            />
+                            {errors.schoolExpense &&
+                                formData.schoolExpense === "" && (
+                                    <p className="text-red-500 text-sm">
+                                        {errors.schoolExpense}
+                                    </p>
+                                )}
                         </div>
                         <div className="col-span-2">
-                            <label className="block text-sm font-medium mb-1">Alamat Rumah</label>
-                            <textarea name='address' onChange={handleChange} cols={4} placeholder="Alamat Rumah" className={`w-full p-2 border rounded-md h-24 ${errors.address && formData.address === '' ? 'border-red-500' : 'border-primary/50'}`}></textarea>
-                            {errors.address && formData.address === '' && <p className="text-red-500 text-sm">{errors.address}</p>}
+                            <label className="block text-sm font-medium mb-1">
+                                Alamat Rumah
+                            </label>
+                            <textarea
+                                name="address"
+                                onChange={handleChange}
+                                cols={4}
+                                placeholder="Alamat Rumah"
+                                className={`w-full p-2 border rounded-md h-24 ${
+                                    errors.address && formData.address === ""
+                                        ? "border-red-500"
+                                        : "border-primary/50"
+                                }`}
+                            ></textarea>
+                            {errors.address && formData.address === "" && (
+                                <p className="text-red-500 text-sm">
+                                    {errors.address}
+                                </p>
+                            )}
                         </div>
                         <div className="col-span-2">
-                            <label className="block text-sm font-medium mb-1">Asal Sekolah</label>
-                            <input name='schoolOrigin' onChange={handleChange} type="text" placeholder="Asal Sekolah" className={`w-full p-2 border rounded-md ${errors.schoolOrigin && formData.schoolOrigin === '' ? 'border-red-500' : 'border-primary/50'}`} />
-                            {errors.schoolOrigin && formData.schoolOrigin === '' && <p className="text-red-500 text-sm">{errors.schoolOrigin}</p>}
+                            <label className="block text-sm font-medium mb-1">
+                                Asal Sekolah
+                            </label>
+                            <input
+                                name="schoolOrigin"
+                                onChange={handleChange}
+                                type="text"
+                                placeholder="Asal Sekolah"
+                                className={`w-full p-2 border rounded-md ${
+                                    errors.schoolOrigin &&
+                                    formData.schoolOrigin === ""
+                                        ? "border-red-500"
+                                        : "border-primary/50"
+                                }`}
+                            />
+                            {errors.schoolOrigin &&
+                                formData.schoolOrigin === "" && (
+                                    <p className="text-red-500 text-sm">
+                                        {errors.schoolOrigin}
+                                    </p>
+                                )}
                         </div>
                         <div className="col-span-2 flex justify-between mt-4">
                             <ButtonComponent
                                 text="Daftar Sekarang"
                                 variant="secondary"
                                 size="lg"
-                                type='submit'
+                                type="submit"
                                 color="white"
                             />
                         </div>
