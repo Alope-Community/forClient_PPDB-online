@@ -48,6 +48,6 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(route('register-data-get', absolute: false));
+        return redirect(route('register-data-get', absolute: false))->with('success', 'Berhasil Daftar, Silahkan Isi Data');
     }
 }

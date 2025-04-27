@@ -75,6 +75,6 @@ class RegistrationContoller extends Controller
 
         Document::insert($documents);
 
-        return redirect("/");
+        return redirect("/")->with('success', 'Berhasil Daftar');
     }
 }
