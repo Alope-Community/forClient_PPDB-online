@@ -36,11 +36,11 @@ class RegistrationResource extends Resource
                 Forms\Components\Select::make('user_id')
                     ->label('Nama Siswa')
                     ->required()
-                    ->relationship('user', 'name', function ($query) {
-                        $query->whereHas('roles', function ($roleQuery) {
-                            $roleQuery->where('name', 'student');
-                        });
-                    }),
+                    ->relationship(
+                        name: 'user',
+                        titleAttribute: 'name',
+                        modifyQueryUsing: fn($query) => $query->where('name', '!=', 'Admin')
+                    ),
                 Forms\Components\Select::make('registration_path')
                     ->label('Jalur Pendaftaran')
                     ->options([

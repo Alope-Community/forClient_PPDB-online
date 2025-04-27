@@ -212,11 +212,11 @@ class StudentResource extends Resource
                     ->label('Nama')
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('roles.name')
-                    ->badge()
-                    ->label('Role')
-                    ->color('info')
-                    ->sortable(),
+                // Tables\Columns\TextColumn::make('roles.name')
+                //     ->badge()
+                //     ->label('Role')
+                //     ->color('info')
+                //     ->sortable(),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable()
                     ->sortable(),
