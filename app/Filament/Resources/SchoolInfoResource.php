@@ -12,7 +12,9 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use ValentinMorice\FilamentJsonColumn\FilamentJsonColumn;
+// use ValentinMorice\FilamentJsonColumn\FilamentJsonColumn;
+use ValentinMorice\FilamentJsonColumn\JsonColumn;
+use ValentinMorice\FilamentJsonColumn\JsonInfolist;
 
 class SchoolInfoResource extends Resource
 {
@@ -63,7 +65,7 @@ class SchoolInfoResource extends Resource
                     ->afterStateUpdated(fn($state, callable $set) => $set('value', null))
                     ->required(),
 
-                FilamentJsonColumn::make('value')
+                JsonColumn::make('value')
                     ->label('Value')
                     ->columnSpanFull()
                     ->viewerOnly(fn($livewire) => $livewire instanceof Pages\ViewSchoolInfo)
