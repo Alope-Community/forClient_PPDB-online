@@ -14,6 +14,19 @@ return new class extends Migration
         Schema::create('user_details', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            // 
+            $table->enum('gender', ['male', 'female'])->default('male');
+            $table->string('birth_place')->nullable();
+            $table->datetime('birth_date')->nullable();
+            $table->enum('religion', ['islam', 'kristen', 'katolik', 'hindu', 'budha', 'konghucu'])->default('islam');
+            $table->string('citizenship')->nullable();
+            $table->string('family_order')->nullable();
+            $table->string('number_of_siblings')->nullable();
+            $table->string('family_status')->nullable();
+            $table->enum('school_origin_type', ['SD', 'MI']);
+            $table->string('graduation_year')->nullable();
+            $table->string('extracurricular')->nullable();
+            // 
             $table->string('father_name')->nullable();
             $table->string('mother_name')->nullable();
             $table->string('phone_number')->nullable();
@@ -33,6 +46,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('schools');
+        Schema::dropIfExists('user_details');
     }
 };
