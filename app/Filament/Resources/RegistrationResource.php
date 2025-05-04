@@ -26,7 +26,7 @@ class RegistrationResource extends Resource
 
     public static function getPluralModelLabel(): string
     {
-        return 'Status Registrasi';
+        return 'Status Pendaftaran';
     }
 
     public static function form(Form $form): Form

@@ -27,27 +27,27 @@ class EditProfileController extends Controller
     {
         $user = Auth::user();
 
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'nisn' => 'nullable|string|max:20',
-            'jarak_rumah' => 'nullable|numeric',
-            'asal_sekolah' => 'nullable|string|max:255',
-            'alamat_rumah' => 'required|string|max:255',
-            'nama_ayah' => 'required|string|max:255',
-            'nomor_telepon' => 'nullable|string|max:15',
-            'pekerjaan_ayah' => 'required|string|max:255',
-            'penghasilan_orang_tua' => 'nullable|numeric',
-            'nama_ibu' => 'required|string|max:255',
-            'nomor_ibu_hp' => 'nullable|string|max:15',
-            'pekerjaan_ibu' => 'required|string|max:255',
-            'upah_ibu' => 'nullable|numeric',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
-        ], [
-            'required' => ':attribute harus diisi!',
-            'max'      => ':attribute terlalu panjang!',
-            'numeric'  => ':attribute harus berupa angka!',
-            'min'      => ':attribute tidak boleh kurang dari 0!',
-        ]);
+        // $request->validate([
+        //     'name' => 'required|string|max:255',
+        //     'nisn' => 'nullable|string|max:20',
+        //     'jarak_rumah' => 'nullable|numeric',
+        //     'asal_sekolah' => 'nullable|string|max:255',
+        //     'alamat_rumah' => 'required|string|max:255',
+        //     'nama_ayah' => 'required|string|max:255',
+        //     'nomor_telepon' => 'nullable|string|max:15',
+        //     'pekerjaan_ayah' => 'required|string|max:255',
+        //     'penghasilan_orang_tua' => 'nullable|numeric',
+        //     'nama_ibu' => 'required|string|max:255',
+        //     'nomor_ibu_hp' => 'nullable|string|max:15',
+        //     'pekerjaan_ibu' => 'required|string|max:255',
+        //     'upah_ibu' => 'nullable|numeric',
+        //     'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
+        // ], [
+        //     'required' => ':attribute harus diisi!',
+        //     'max'      => ':attribute terlalu panjang!',
+        //     'numeric'  => ':attribute harus berupa angka!',
+        //     'min'      => ':attribute tidak boleh kurang dari 0!',
+        // ]);
 
         if ($request->hasFile('photo')) {
             $registration = $user->registration;
@@ -92,6 +92,17 @@ class EditProfileController extends Controller
                 'mother_job' => $request->pekerjaan_ibu,
                 'parent_salary' => $request->penghasilan_orang_tua,
                 'phone_number' => $request->nomor_telepon,
+                // 
+                'gender' => $request->gender,
+                'school_origin_type' => $request->school_origin_type,
+                'graduation_year' => $request->graduation_year,
+                'birth_place' => $request->birth_place,
+                'birth_date' => $request->birth_date,
+                'citizenship' => $request->citizenship,
+                'family_order' => $request->family_order,
+                'number_of_siblings' => $request->number_of_siblings,
+                'family_status' => $request->family_status,
+                'extracurricular' => isset($request->extracurricular) ? implode(',', (array) $request->extracurricular) : '',
             ]);
         } else {
             $user->detail()->create([
@@ -104,6 +115,17 @@ class EditProfileController extends Controller
                 'mother_job' => $request->pekerjaan_ibu,
                 'parent_salary' => $request->penghasilan_orang_tua,
                 'phone_number' => $request->nomor_telepon,
+                // 
+                'gender' => $request->gender ?? '',
+                'school_origin_type' => $request->school_origin_type ?? '',
+                'graduation_year' => $request->graduation_year ?? '',
+                'birth_place' => $request->birth_place ?? '',
+                'birth_date' => $request->birth_date ?? '',
+                'citizenship' => $request->citizenship ?? '',
+                'family_order' => $request->family_order ?? '',
+                'number_of_siblings' => $request->number_of_siblings ?? '',
+                'family_status' => $request->family_status ?? '',
+                'extracurricular' => isset($request->extracurricular) ? implode(',', (array) $request->extracurricular) : '',
             ]);
         }
 

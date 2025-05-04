@@ -325,7 +325,7 @@ export default function RegisterData() {
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium mb-1">
-                                        Citizenship
+                                        Kewarganegaraan
                                     </label>
                                     <input
                                         name="citizenship"
