@@ -17,7 +17,7 @@ export default function Hero() {
                     Didik Baru
                 </h1>
                 <h2 className="text-xl md:text-3xl lg:text-4xl font-semibold mt-2">
-                    MTs PUI
+                    MTs PUI Cikaso
                 </h2>
                 <div className="flex items-center space-x-2 mt-5">
                     <div className="text-white">

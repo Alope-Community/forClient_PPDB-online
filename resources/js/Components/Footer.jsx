@@ -10,7 +10,7 @@ export default function Footer() {
             <div className="container mx-auto">
                 <div className="px-10 py-8 flex flex-col md:flex-row justify-between gap-8">
                     <div className="md:w-1/3 px-5">
-                        <h2 className="text-lg font-semibold">MTs La tahzan</h2>
+                        <h2 className="text-lg font-semibold">MTs PUI Cikaso</h2>
                         <p className="text-sm leading-relaxed">
                             {info["Tentang Sekolah"]}
                         </p>

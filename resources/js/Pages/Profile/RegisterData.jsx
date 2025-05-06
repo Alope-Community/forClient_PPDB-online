@@ -243,6 +243,7 @@ export default function RegisterData() {
                                             <option value="" hidden>
                                                 Pilih Tahun Lulus
                                             </option>
+                                            <option value="2024">2025</option>
                                             <option value="2024">2024</option>
                                             <option value="2023">2023</option>
                                             <option value="2022">2022</option>
@@ -325,7 +326,7 @@ export default function RegisterData() {
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium mb-1">
-                                        Citizenship
+                                        Kewarganegaraan
                                     </label>
                                     <input
                                         name="citizenship"
@@ -747,7 +748,7 @@ export default function RegisterData() {
                             </section>
                             <div className="col-span-2 flex justify-between mt-4">
                                 <ButtonComponent
-                                    text="Daftar Sekarang"
+                                    text="Simpan"
                                     variant="secondary"
                                     size="lg"
                                     type="submit"

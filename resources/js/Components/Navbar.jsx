@@ -19,7 +19,7 @@ export default function tallNavbar() {
                             className="h-10 w-10 object-cover"
                         />
                         <span className="ml-2 text-xl font-bold text-primary">
-                            MTs La tahzan
+                            MTs PUI Cikaso
                         </span>
                     </div>
                     <div className="hidden md:flex space-x-6">
