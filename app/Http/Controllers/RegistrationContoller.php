@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Document;
 use App\Models\Registration;
+use App\Models\Verification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class RegistrationContoller extends Controller
@@ -76,5 +78,38 @@ class RegistrationContoller extends Controller
         Document::insert($documents);
 
         return redirect("/")->with('success', 'Berhasil Daftar');
+    }
+
+
+    public function updateDocument(Request $request)
+    {
+        $request->validate([
+            'document_type' => 'required',
+            'file' => 'required|file|mimes:jpg,jpeg|max:10240',
+        ]);
+
+        $userId = auth()->id();
+        $documentType = strtolower($request->document_type);
+
+        $document = Document::whereHas('registration', function ($query) use ($userId) {
+            $query->where('user_id', $userId);
+        })->where('document_type', $documentType)->firstOrFail();
+
+        if (Storage::disk('public')->exists($document->file_path)) {
+            Storage::disk('public')->delete($document->file_path);
+        }
+
+        $newPath = $request->file('file')->store("documents/$documentType", 'public');
+
+        $document->update([
+            'file_path' => $newPath,
+        ]);
+
+        Verification::updateOrCreate(
+            ['document_id' => $document->id],
+            ['status' => 'menunggu']
+        );
+
+        return redirect("/dashboard")->with('success', 'Berhasil Update Dokumen');
     }
 }

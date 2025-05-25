@@ -1,5 +1,5 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, Link, usePage } from "@inertiajs/react";
+import { Head, Link, useForm, usePage } from "@inertiajs/react";
 import ButtonComponent from "@/Components/Button";
 import { useEffect, useState } from "react";
 
@@ -35,6 +35,23 @@ export default function Dashboard({ auth }) {
             setTimeout(() => setAlert({ type: "", message: "" }), 3000);
         }
     }, [flash]);
+
+    const { data, setData, post, processing, errors } = useForm({
+        file: null,
+    });
+
+    function handleFileChange(e) {
+        const name = e.target.name;
+        const file = e.target.files[0];
+
+        setData("document_type", name);
+        setData("file", file);
+    }
+
+    function submit(e) {
+        e.preventDefault();
+        post("/update-document");
+    }
 
     return (
         <AuthenticatedLayout
@@ -210,40 +227,76 @@ export default function Dashboard({ auth }) {
                                                                 "Belum Diverifikasi"}
                                                         </span>
                                                     </div>
-                                                    <div className="text-gray-600 text-sm mr-10">
-                                                        {new Date(
-                                                            doc.created_at
-                                                        ).toLocaleDateString(
-                                                            "id-ID"
-                                                        )}
-                                                    </div>
-                                                    <a
-                                                        href={`storage/${doc.file_path}`}
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                        className="flex items-center gap-1 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-200"
-                                                    >
-                                                        <svg
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                            fill="none"
-                                                            viewBox="0 0 24 24"
-                                                            strokeWidth={1.5}
-                                                            stroke="currentColor"
-                                                            className="w-6 h-6"
+                                                    {doc.verification?.status ==
+                                                    "ditolak" ? (
+                                                        <form
+                                                            onSubmit={submit}
+                                                            className="flex gap-5"
                                                         >
-                                                            <path
-                                                                strokeLinecap="round"
-                                                                strokeLinejoin="round"
-                                                                d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"
+                                                            <input
+                                                                type="file"
+                                                                name={doc.document_type.toUpperCase()}
+                                                                onChange={
+                                                                    handleFileChange
+                                                                }
                                                             />
-                                                            <path
-                                                                strokeLinecap="round"
-                                                                strokeLinejoin="round"
-                                                                d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                                                            />
-                                                        </svg>
-                                                        Lihat Dokumen
-                                                    </a>
+                                                            {/* {errors.file && (
+                                                                <div className="text-red-600">
+                                                                    {
+                                                                        errors.file
+                                                                    }
+                                                                </div>
+                                                            )} */}
+                                                            <button
+                                                                type="submit"
+                                                                disabled={
+                                                                    processing
+                                                                }
+                                                                className="flex items-center gap-1 bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition duration-200"
+                                                            >
+                                                                Kirim Ulang
+                                                            </button>
+                                                        </form>
+                                                    ) : (
+                                                        <>
+                                                            <div className="text-gray-600 text-sm mr-10">
+                                                                {new Date(
+                                                                    doc.created_at
+                                                                ).toLocaleDateString(
+                                                                    "id-ID"
+                                                                )}
+                                                            </div>
+                                                            <a
+                                                                href={`storage/${doc.file_path}`}
+                                                                target="_blank"
+                                                                rel="noopener noreferrer"
+                                                                className="flex items-center gap-1 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-200"
+                                                            >
+                                                                <svg
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                    fill="none"
+                                                                    viewBox="0 0 24 24"
+                                                                    strokeWidth={
+                                                                        1.5
+                                                                    }
+                                                                    stroke="currentColor"
+                                                                    className="w-6 h-6"
+                                                                >
+                                                                    <path
+                                                                        strokeLinecap="round"
+                                                                        strokeLinejoin="round"
+                                                                        d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"
+                                                                    />
+                                                                    <path
+                                                                        strokeLinecap="round"
+                                                                        strokeLinejoin="round"
+                                                                        d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                                                                    />
+                                                                </svg>
+                                                                Lihat Dokumen
+                                                            </a>
+                                                        </>
+                                                    )}
                                                 </li>
                                             )
                                         )

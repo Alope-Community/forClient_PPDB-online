@@ -20,6 +20,7 @@ Route::get('/dashboard', function () {
 Route::get('/pendaftaran-jalur-reguler', [RegistrationContoller::class, 'regularPath'])->middleware(['auth']);
 Route::get('/pendaftaran-jalur-afirmasi', [RegistrationContoller::class, 'afirmationPath'])->middleware(['auth']);
 Route::post('/registration', [RegistrationContoller::class, 'registration'])->middleware(['auth']);
+Route::post('/update-document', [RegistrationContoller::class, 'updateDocument'])->middleware(['auth']);
 
 Route::get('/register-data', function () {
     return Inertia::render('Profile/RegisterData');
