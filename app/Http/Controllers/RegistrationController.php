@@ -22,7 +22,7 @@ class RegistrationController extends Controller
 
     public function afirmationPath()
     {
-        $registration = Registration::whereUserId(Auth::user()->id)->first();
+        $registration = Registration::whereUerId(Auth::user()->id)->first();
 
         return Inertia::render('PendaftaranJalurAfirmasi', [
             "registration" => $registration
