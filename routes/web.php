@@ -5,7 +5,7 @@ use App\Http\Controllers\EditProfileController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegisterDataController;
-use App\Http\Controllers\RegistrationContoller;
+use App\Http\Controllers\RegistrationController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -17,9 +17,9 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 // Registration
-Route::get('/pendaftaran-jalur-reguler', [RegistrationContoller::class, 'regularPath'])->middleware(['auth']);
-Route::get('/pendaftaran-jalur-afirmasi', [RegistrationContoller::class, 'afirmationPath'])->middleware(['auth']);
-Route::post('/registration', [RegistrationContoller::class, 'registration'])->middleware(['auth']);
+Route::get('/pendaftaran-jalur-reguler', [RegistrationController::class, 'regularPath'])->middleware(['auth']);
+Route::get('/pendaftaran-jalur-afirmasi', [RegistrationController::class, 'afirmationPath'])->middleware(['auth']);
+Route::post('/registration', [RegistrationController::class, 'registration'])->middleware(['auth']);
 
 Route::get('/register-data', function () {
     return Inertia::render('Profile/RegisterData');

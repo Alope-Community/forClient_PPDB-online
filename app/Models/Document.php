@@ -11,6 +11,8 @@ class Document extends Model
         'registration_id',
         'document_type',
         'file_path',
+        'before_size',
+        'after_size',
     ];
 
     public function registration()

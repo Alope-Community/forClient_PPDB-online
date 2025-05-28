@@ -118,6 +118,25 @@ class DocumentResource extends Resource
                     ->label('Jenis Dokumen')
                     ->searchable()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('before_size')
+                    ->label('Size')
+                    ->formatStateUsing(function ($record) {
+                        $beforeSize = number_format($record->before_size / (1024 * 1024), 2);
+                        $afterSize = number_format($record->after_size / (1024 * 1024), 2);
+                        $percentage = round((1 - ($record->after_size / $record->before_size)) * 100, 2);
+                        return "{$beforeSize} MB -> {$afterSize} MB";
+                    })
+                    ->searchable()
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('after_size')
+                    ->label('Compression Rate')
+                    ->formatStateUsing(function ($record) {
+                        $percentage = round((1 - ($record->after_size / $record->before_size)) * 100, 2);
+                        return "{$percentage}%";
+                    })
+                    ->searchable()
+                    ->sortable(),
             ])
             ->filters([
                 //
