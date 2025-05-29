@@ -10,6 +10,7 @@ use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use Filament\Support\Facades\FilamentView;
 use Filament\Widgets;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
@@ -22,6 +23,12 @@ class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
+        // Hook untuk menambahkan 2 logo sebelum judul topbar
+        FilamentView::registerRenderHook(
+            'panels::topbar.start',
+            fn () => view('components.logo-topbar')
+        );
+
         return $panel
             ->default()
             ->id('admin')

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { Link, usePage } from "@inertiajs/react";
-import Button from "./Button";
+import { Link } from "@inertiajs/react";
 import DropdownWelcome from "./DropdownWelcome";
 import ButtonComponent from "./Button";
 
@@ -13,6 +12,11 @@ export default function tallNavbar() {
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-16">
                     <div className="flex items-center">
+                        <img
+                            src="https://fkom.uniku.ac.id/wp-content/uploads/2021/08/fkom-transparan-biru.png"
+                            alt="Logo FKOM"
+                            className="h-10 mr-3"
+                        />
                         <img
                             src="/image/logo.png"
                             alt="Logo"

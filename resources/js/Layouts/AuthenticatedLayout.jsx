@@ -18,6 +18,11 @@ export default function AuthenticatedLayout({ header, children }) {
                     <div className="flex h-16 justify-between">
                         <div className="flex">
                             <div className="flex shrink-0 items-center gap-3">
+                                <img
+                                    src="https://fkom.uniku.ac.id/wp-content/uploads/2021/08/fkom-transparan-biru.png"
+                                    alt="Logo FKOM"
+                                    className="h-10 mr-3"
+                                />
                                 <Link href="/">
                                     <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800" />
                                 </Link>
