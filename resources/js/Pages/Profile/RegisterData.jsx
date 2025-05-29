@@ -120,11 +120,11 @@ export default function RegisterData() {
 
     return (
         <>
-            {showToast && (
+            {/* {showToast && (
                 <div className="bg-green-500 text-white px-6 py-3 rounded shadow fixed z-[70] w-[200px] left-1/2 -translate-x-1/2 top-4 text-center transition-all duration-300">
                     {successMessage}
                 </div>
-            )}
+            )} */}
             <Head title="Registrasi Data" />
             <div className="flex justify-center items-center min-h-screen p-4 bg-cover bg-[url('../image/hero/hero.jpg')] after:content-[''] after:absolute relative after:bg-black/60 after:inset-0">
                 <div className="w-full mx-20 p-6 bg-white shadow-md rounded-lg border border-secondary text-primary z-10">

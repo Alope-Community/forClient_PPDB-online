@@ -99,9 +99,9 @@ export default function PendaftaranJalurReguler() {
                                 Pendaftaran Jalur Reguler
                             </h2>
 
-                            <div className="flex flex-col md:flex-row w-full mt-10">
+                            <div className="w-full mt-10">
                                 {/* Pas Foto */}
-                                <div className="md:w-1/2 flex flex-col items-center p-6">
+                                {/* <div className="md:w-1/2 flex flex-col items-center p-6">
                                     <h3 className="text-lg font-semibold">
                                         Pas Foto
                                     </h3>
@@ -152,10 +152,11 @@ export default function PendaftaranJalurReguler() {
                                             sesuai
                                         </p>
                                     </div>
-                                </div>
+                                </div> */}
 
                                 {/* Formulir Pendaftaran */}
-                                <div className="md:w-1/2 p-6">
+                                {/* <div className="md:w-1/2 p-6"> */}
+                                <div className="p-6">
                                     {[
                                         {
                                             name: "Kartu Keluarga",
@@ -165,17 +166,20 @@ export default function PendaftaranJalurReguler() {
                                             name: "Akte Kelahiran",
                                             field: "akte_kelahiran",
                                         },
-                                        {
-                                            name: "KIA/KTP ORTU",
-                                            field: "kia_ktp_ortu",
-                                        },
+                                        // {
+                                        //     name: "KIA/KTP ORTU",
+                                        //     field: "kia_ktp_ortu",
+                                        // },
                                         { name: "Ijazah/SKL", field: "ijazah" },
                                         {
                                             name: "SKHU/Raport Kelas 5",
                                             field: "skhu_raport",
                                         },
                                     ].map((doc, index) => (
-                                        <div key={index} className="mb-5">
+                                        <div
+                                            key={index}
+                                            className="mb-5 w-full"
+                                        >
                                             <label className="block font-medium">
                                                 {doc.name}
                                             </label>

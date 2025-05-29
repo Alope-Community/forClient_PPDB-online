@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Document;
 use App\Models\Registration;
+use App\Models\Verification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use App\Services\HuffmanService;
+use Illuminate\Support\Facades\Storage;
 
 class RegistrationController extends Controller
 {
@@ -22,7 +24,7 @@ class RegistrationController extends Controller
 
     public function afirmationPath()
     {
-        $registration = Registration::whereUerId(Auth::user()->id)->first();
+        $registration = Registration::whereUserId(Auth::user()->id)->first();
 
         return Inertia::render('PendaftaranJalurAfirmasi', [
             "registration" => $registration
@@ -32,10 +34,10 @@ class RegistrationController extends Controller
     public function registration(Request $request)
     {
         $request->validate([
-            'pas_foto' => 'required|file|mimes:jpg,jpeg|max:10240',
+            // 'pas_foto' => 'required|file|mimes:jpg,jpeg|max:10240',
             'kartu_keluarga' => 'required|file|mimes:jpg,jpeg|max:10240',
             'akte_kelahiran' => 'required|file|mimes:jpg,jpeg|max:10240',
-            'kia_ktp_ortu' => 'required|file|mimes:jpg,jpeg|max:10240',
+            // 'kia_ktp_ortu' => 'required|file|mimes:jpg,jpeg|max:10240',
             'ijazah' => 'required|file|mimes:jpg,jpeg|max:10240',
             'skhu_raport' => 'required|file|mimes:jpg,jpeg|max:10240',
             'kip_pkh_pip_sktm' => 'nullable|file|mimes:jpg,jpeg|max:10240',
@@ -43,7 +45,7 @@ class RegistrationController extends Controller
             'jalur_registrasi' => 'required',
         ]);
 
-        $fileFields = ['pas_foto', 'kartu_keluarga', 'akte_kelahiran', 'kia_ktp_ortu', 'ijazah', 'skhu_raport'];
+        $fileFields = ['kartu_keluarga', 'akte_kelahiran', 'ijazah', 'skhu_raport'];
         $huffmanService = app(HuffmanService::class);
 
         $fileData = collect($fileFields)->mapWithKeys(function ($field) use ($request, $huffmanService) {
@@ -118,10 +120,8 @@ class RegistrationController extends Controller
         ]);
 
         $documentTypes = [
-            'pas_foto' => 'pas photo',
             'kartu_keluarga' => 'kartu keluarga',
             'akte_kelahiran' => 'akte kelahiran',
-            'kia_ktp_ortu' => 'ktp ortu',
             'ijazah' => 'ijazah',
             'skhu_raport' => 'skhu raport',
             'kip_pkh_pip_sktm' => 'kip/pkh/pip/sktm',
@@ -134,12 +134,48 @@ class RegistrationController extends Controller
                 'document_type' => $documentTypes[$field],
                 'file_path' => $data['path'],
                 'before_size' => $data['before_size'],
-                'after_size' => $data['after_size']
+                'after_size' => $data['after_size'],
+                'created_at' => now(),
             ];
         }
 
         Document::insert($documents);
 
-        return redirect("/")->with('success', 'Berhasil Daftar');
+        return redirect("/dashboard")->with('success', 'Berhasil Daftar');
+    }
+
+    public function updateDocument(Request $request)
+    {
+        $request->validate([
+            'document_type' => 'required',
+            'file' => 'required|file|mimes:jpg,jpeg|max:10240',
+        ]);
+
+        $userId = auth()->id();
+        $documentType = strtolower($request->document_type);
+
+        $document = Document::whereHas('registration', function ($query) use ($userId) {
+            $query->where('user_id', $userId);
+        })->where('document_type', $documentType)->firstOrFail();
+
+        if (Storage::disk('public')->exists($document->file_path)) {
+            Storage::disk('public')->delete($document->file_path);
+        }
+
+        $newPath = $request->file('file')->store("documents/$documentType", 'public');
+
+        $document->update([
+            'file_path' => $newPath,
+        ]);
+
+        Verification::updateOrCreate(
+            ['document_id' => $document->id],
+            [
+                'status' => 'menunggu',
+                'admin_id' => 1
+            ]
+        );
+
+        return redirect("/dashboard")->with('success', 'Berhasil Update Dokumen');
     }
 }
