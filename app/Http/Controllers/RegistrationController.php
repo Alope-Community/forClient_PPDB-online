@@ -34,12 +34,10 @@ class RegistrationController extends Controller
     public function registration(Request $request)
     {
         $request->validate([
-            // 'pas_foto' => 'required|file|mimes:jpg,jpeg|max:10240',
             'kartu_keluarga' => 'required|file|mimes:jpg,jpeg|max:10240',
             'akte_kelahiran' => 'required|file|mimes:jpg,jpeg|max:10240',
-            // 'kia_ktp_ortu' => 'required|file|mimes:jpg,jpeg|max:10240',
-            'ijazah' => 'required|file|mimes:jpg,jpeg|max:10240',
-            'skhu_raport' => 'required|file|mimes:jpg,jpeg|max:10240',
+            'ijazah' => 'nullable|file|mimes:jpg,jpeg|max:10240',
+            'skhu_raport' => 'nullable|file|mimes:jpg,jpeg|max:10240',
             'kip_pkh_pip_sktm' => 'nullable|file|mimes:jpg,jpeg|max:10240',
             'user_id' => 'required',
             'jalur_registrasi' => 'required',
@@ -49,6 +47,16 @@ class RegistrationController extends Controller
         $huffmanService = app(HuffmanService::class);
 
         $fileData = collect($fileFields)->mapWithKeys(function ($field) use ($request, $huffmanService) {
+            if (!$request->hasFile($field)) {
+                return [
+                    $field => [
+                        'path' => '',
+                        'before_size' => null,
+                        'after_size' => null,
+                    ],
+                ];
+            }
+
             $file = $request->file($field);
             $filename = uniqid() . '.' . $file->getClientOriginalExtension();
             $directory = storage_path("app/public/documents/$field");
@@ -57,15 +65,17 @@ class RegistrationController extends Controller
                 mkdir($directory, 0755, true);
             }
 
-            $targetPath = storage_path("app/public/documents/$field/" . $filename);
+            $targetPath = "$directory/$filename";
             $file->move(dirname($targetPath), basename($targetPath));
 
             $beforeSize = filesize($targetPath);
             $compressedFilename = pathinfo($targetPath, PATHINFO_FILENAME) . '_compressed.' . pathinfo($targetPath, PATHINFO_EXTENSION);
             $compressedPath = dirname($targetPath) . '/' . $compressedFilename;
+
             copy($targetPath, $compressedPath);
             $huffmanService->compressImage($compressedPath);
             $afterSize = filesize($compressedPath);
+
             unlink($targetPath);
             rename($compressedPath, $targetPath);
             $huffmanService->decompressImage($targetPath);
@@ -74,16 +84,12 @@ class RegistrationController extends Controller
                 $field => [
                     'path' => "documents/$field/" . $filename,
                     'before_size' => $beforeSize,
-                    'after_size' => $afterSize
-                ]
+                    'after_size' => $afterSize,
+                ],
             ];
         })->toArray();
 
-        $filePaths = [];
-        foreach ($fileData as $field => $data) {
-            $filePaths[$field] = $data['path'];
-        }
-
+        // Handle file tambahan jika jalur afirmasi
         if ($request->jalur_registrasi === 'afirmasi' && $request->hasFile('kip_pkh_pip_sktm')) {
             $file = $request->file('kip_pkh_pip_sktm');
             $filename = uniqid() . '.' . $file->getClientOriginalExtension();
@@ -93,24 +99,32 @@ class RegistrationController extends Controller
                 mkdir($directory, 0755, true);
             }
 
-            $targetPath = storage_path("app/public/documents/kip_pkh_pip_sktm/" . $filename);
+            $targetPath = "$directory/$filename";
             $file->move(dirname($targetPath), basename($targetPath));
 
             $beforeSize = filesize($targetPath);
             $compressedFilename = pathinfo($targetPath, PATHINFO_FILENAME) . '_compressed.' . pathinfo($targetPath, PATHINFO_EXTENSION);
             $compressedPath = dirname($targetPath) . '/' . $compressedFilename;
+
             copy($targetPath, $compressedPath);
             $huffmanService->compressImage($compressedPath);
             $afterSize = filesize($compressedPath);
+
             unlink($targetPath);
             rename($compressedPath, $targetPath);
             $huffmanService->decompressImage($targetPath);
 
-            $filePaths['kip_pkh_pip_sktm'] = "documents/kip_pkh_pip_sktm/" . $filename;
             $fileData['kip_pkh_pip_sktm'] = [
                 'path' => "documents/kip_pkh_pip_sktm/" . $filename,
                 'before_size' => $beforeSize,
-                'after_size' => $afterSize
+                'after_size' => $afterSize,
+            ];
+        } else {
+            // tetap isi meskipun tidak ada file jika jalur afirmasi
+            $fileData['kip_pkh_pip_sktm'] = [
+                'path' => '',
+                'before_size' => null,
+                'after_size' => null,
             ];
         }
 
