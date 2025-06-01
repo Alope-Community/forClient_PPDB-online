@@ -143,8 +143,7 @@ class RegistrationController extends Controller
 
         $documents = [];
         foreach ($fileData as $field => $data) {
-            // Skip 'kip_pkh_pip_sktm' jika jalur afirmasi
-            if ($field === 'kip_pkh_pip_sktm' && $request->jalur_registrasi === 'afirmasi') {
+            if ($field === 'kip_pkh_pip_sktm' && $request->jalur_registrasi === 'reguler') {
                 continue;
             }
 
@@ -177,14 +176,44 @@ class RegistrationController extends Controller
             $query->where('user_id', $userId);
         })->where('document_type', $documentType)->firstOrFail();
 
+        // Hapus file lama jika ada
         if (Storage::disk('public')->exists($document->file_path)) {
             Storage::disk('public')->delete($document->file_path);
         }
 
-        $newPath = $request->file('file')->store("documents/$documentType", 'public');
+        $file = $request->file('file');
+        $filename = uniqid() . '.' . $file->getClientOriginalExtension();
+        $directory = storage_path("app/public/documents/$documentType");
 
+        if (!file_exists($directory)) {
+            mkdir($directory, 0755, true);
+        }
+
+        $targetPath = "$directory/$filename";
+        $file->move(dirname($targetPath), basename($targetPath));
+
+        // Proses kompresi Huffman
+        $huffmanService = app(HuffmanService::class);
+        $beforeSize = filesize($targetPath);
+        $compressedFilename = pathinfo($targetPath, PATHINFO_FILENAME) . '_compressed.' . pathinfo($targetPath, PATHINFO_EXTENSION);
+        $compressedPath = dirname($targetPath) . '/' . $compressedFilename;
+
+        copy($targetPath, $compressedPath);
+        $huffmanService->compressImage($compressedPath);
+        $afterSize = filesize($compressedPath);
+
+        unlink($targetPath);
+        rename($compressedPath, $targetPath);
+
+        $huffmanService->decompressImage($targetPath); 
+
+        $publicPath = "documents/$documentType/" . $filename;
+
+        // Update database
         $document->update([
-            'file_path' => $newPath,
+            'file_path' => $publicPath,
+            'before_size' => $beforeSize,
+            'after_size' => $afterSize,
         ]);
 
         Verification::updateOrCreate(
