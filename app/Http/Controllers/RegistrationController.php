@@ -143,6 +143,11 @@ class RegistrationController extends Controller
 
         $documents = [];
         foreach ($fileData as $field => $data) {
+            // Skip 'kip_pkh_pip_sktm' jika jalur afirmasi
+            if ($field === 'kip_pkh_pip_sktm' && $request->jalur_registrasi === 'afirmasi') {
+                continue;
+            }
+
             $documents[] = [
                 'registration_id' => $registration->id,
                 'document_type' => $documentTypes[$field],

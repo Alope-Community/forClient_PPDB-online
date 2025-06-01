@@ -208,72 +208,84 @@ export default function Dashboard({ auth }) {
                                     {auth.user.registration.documents?.length >
                                     0 ? (
                                         auth.user.registration.documents.map(
-                                            (doc, index) => (
-                                                <li
-                                                    key={index}
-                                                    className="flex items-center justify-between bg-white p-4 rounded-lg shadow-sm"
-                                                >
-                                                    <div className="flex-1">
-                                                        <span className="text-gray-700 font-bold">
-                                                            {doc.document_type.toUpperCase()}
-                                                        </span>
-                                                        <br />
+                                            (doc, index) =>
+                                                doc.document_type.toUpperCase() !=
+                                                    "KIP/PKH/PIP/SKTM" &&
+                                                auth.user?.registration
+                                                    .registration_path !=
+                                                    "afirmasi" ? (
+                                                    <li
+                                                        key={index}
+                                                        className="flex items-center justify-between bg-white p-4 rounded-lg shadow-sm"
+                                                    >
+                                                        <div className="flex-1">
+                                                            <span className="text-gray-700 font-bold">
+                                                                {doc.document_type.toUpperCase() ==
+                                                                "SKHU RAPORT"
+                                                                    ? "SKHU"
+                                                                    : doc.document_type.toUpperCase()}
+                                                            </span>
+                                                            <br />
 
-                                                        {doc.file_path != "" ? (
-                                                            <span
-                                                                className={`px-2 py-1 rounded text-white text-sm font-semibold ${getVerificationStatusColor(
-                                                                    doc
+                                                            {doc.file_path !=
+                                                            "" ? (
+                                                                <span
+                                                                    className={`px-2 py-1 rounded text-white text-sm font-semibold ${getVerificationStatusColor(
+                                                                        doc
+                                                                            .verification
+                                                                            ?.status
+                                                                    )}`}
+                                                                >
+                                                                    {doc
                                                                         .verification
-                                                                        ?.status
-                                                                )}`}
-                                                            >
-                                                                {doc
-                                                                    .verification
-                                                                    ?.status ||
-                                                                    "Menunggu"}
-                                                            </span>
-                                                        ) : (
-                                                            <span
-                                                                className={`px-2 py-1 rounded text-white text-sm font-semibold bg-red-500`}
-                                                            >
-                                                                Belum Upload
-                                                            </span>
-                                                        )}
-                                                    </div>
-                                                    {doc.verification?.status !=
-                                                    "diverifikasi" ? (
-                                                        <form
-                                                            onSubmit={submit}
-                                                            className="flex gap-5 mr-5"
-                                                        >
-                                                            <input
-                                                                type="file"
-                                                                name={doc.document_type.toUpperCase()}
-                                                                onChange={
-                                                                    handleFileChange
+                                                                        ?.status ||
+                                                                        "Menunggu"}
+                                                                </span>
+                                                            ) : (
+                                                                <span
+                                                                    className={`px-2 py-1 rounded text-white text-sm font-semibold bg-red-500`}
+                                                                >
+                                                                    Belum Upload
+                                                                </span>
+                                                            )}
+                                                        </div>
+                                                        {doc.verification
+                                                            ?.status !=
+                                                        "diverifikasi" ? (
+                                                            <form
+                                                                onSubmit={
+                                                                    submit
                                                                 }
-                                                            />
-                                                            {/* {errors.file && (
+                                                                className="flex gap-5 mr-5"
+                                                            >
+                                                                <input
+                                                                    type="file"
+                                                                    name={doc.document_type.toUpperCase()}
+                                                                    onChange={
+                                                                        handleFileChange
+                                                                    }
+                                                                />
+                                                                {/* {errors.file && (
                                                                 <div className="text-red-600">
                                                                     {
                                                                         errors.file
                                                                     }
                                                                 </div>
                                                             )} */}
-                                                            <button
-                                                                type="submit"
-                                                                disabled={
-                                                                    processing
-                                                                }
-                                                                className="flex items-center gap-1 bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition duration-200 text-xs"
-                                                            >
-                                                                Kirim Ulang
-                                                            </button>
-                                                        </form>
-                                                    ) : (
-                                                        <></>
-                                                    )}
-                                                    {/* <div className="text-gray-600 text-sm mr-10">
+                                                                <button
+                                                                    type="submit"
+                                                                    disabled={
+                                                                        processing
+                                                                    }
+                                                                    className="flex items-center gap-1 bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition duration-200 text-xs"
+                                                                >
+                                                                    Kirim Ulang
+                                                                </button>
+                                                            </form>
+                                                        ) : (
+                                                            <></>
+                                                        )}
+                                                        {/* <div className="text-gray-600 text-sm mr-10">
                                                         {new Date(
                                                             doc.created_at
                                                         ).toLocaleDateString(
@@ -281,67 +293,69 @@ export default function Dashboard({ auth }) {
                                                         )}
                                                     </div> */}
 
-                                                    {doc.file_path != "" ? (
-                                                        <a
-                                                            href={`storage/${doc.file_path}`}
-                                                            target="_blank"
-                                                            rel="noopener noreferrer"
-                                                            className="flex items-center gap-1 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-200"
-                                                        >
-                                                            <svg
-                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                fill="none"
-                                                                viewBox="0 0 24 24"
-                                                                strokeWidth={
-                                                                    1.5
-                                                                }
-                                                                stroke="currentColor"
-                                                                className="size-5"
+                                                        {doc.file_path != "" ? (
+                                                            <a
+                                                                href={`storage/${doc.file_path}`}
+                                                                target="_blank"
+                                                                rel="noopener noreferrer"
+                                                                className="flex items-center gap-1 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-200"
                                                             >
-                                                                <path
-                                                                    strokeLinecap="round"
-                                                                    strokeLinejoin="round"
-                                                                    d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"
-                                                                />
-                                                                <path
-                                                                    strokeLinecap="round"
-                                                                    strokeLinejoin="round"
-                                                                    d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                                                                />
-                                                            </svg>
-                                                        </a>
-                                                    ) : (
-                                                        <a
-                                                            href={`storage/${doc.file_path}`}
-                                                            target="_blank"
-                                                            rel="noopener noreferrer"
-                                                            className="invisible flex items-center gap-1 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-200"
-                                                        >
-                                                            <svg
-                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                fill="none"
-                                                                viewBox="0 0 24 24"
-                                                                strokeWidth={
-                                                                    1.5
-                                                                }
-                                                                stroke="currentColor"
-                                                                className="size-5"
+                                                                <svg
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                    fill="none"
+                                                                    viewBox="0 0 24 24"
+                                                                    strokeWidth={
+                                                                        1.5
+                                                                    }
+                                                                    stroke="currentColor"
+                                                                    className="size-5"
+                                                                >
+                                                                    <path
+                                                                        strokeLinecap="round"
+                                                                        strokeLinejoin="round"
+                                                                        d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"
+                                                                    />
+                                                                    <path
+                                                                        strokeLinecap="round"
+                                                                        strokeLinejoin="round"
+                                                                        d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                                                                    />
+                                                                </svg>
+                                                            </a>
+                                                        ) : (
+                                                            <a
+                                                                href={`storage/${doc.file_path}`}
+                                                                target="_blank"
+                                                                rel="noopener noreferrer"
+                                                                className="invisible flex items-center gap-1 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-200"
                                                             >
-                                                                <path
-                                                                    strokeLinecap="round"
-                                                                    strokeLinejoin="round"
-                                                                    d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"
-                                                                />
-                                                                <path
-                                                                    strokeLinecap="round"
-                                                                    strokeLinejoin="round"
-                                                                    d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                                                                />
-                                                            </svg>
-                                                        </a>
-                                                    )}
-                                                </li>
-                                            )
+                                                                <svg
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                    fill="none"
+                                                                    viewBox="0 0 24 24"
+                                                                    strokeWidth={
+                                                                        1.5
+                                                                    }
+                                                                    stroke="currentColor"
+                                                                    className="size-5"
+                                                                >
+                                                                    <path
+                                                                        strokeLinecap="round"
+                                                                        strokeLinejoin="round"
+                                                                        d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"
+                                                                    />
+                                                                    <path
+                                                                        strokeLinecap="round"
+                                                                        strokeLinejoin="round"
+                                                                        d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                                                                    />
+                                                                </svg>
+                                                            </a>
+                                                        )}
+                                                    </li>
+                                                ) : (
+                                                    ""
+                                                )
                                         )
                                     ) : (
                                         <p className="text-gray-600 text-center">

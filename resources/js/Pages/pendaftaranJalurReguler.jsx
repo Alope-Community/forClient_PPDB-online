@@ -172,7 +172,7 @@ export default function PendaftaranJalurReguler() {
                                         // },
                                         { name: "Ijazah/SKL", field: "ijazah" },
                                         {
-                                            name: "SKHU/Raport Kelas 5",
+                                            name: "SKHU",
                                             field: "skhu_raport",
                                         },
                                     ].map((doc, index) => (
