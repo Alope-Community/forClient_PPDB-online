@@ -128,6 +128,18 @@ class DocumentResource extends Resource
                     })
                     ->searchable()
                     ->sortable(),
+                
+                Tables\Columns\TextColumn::make('elapsed_time')
+                    ->label('Waktu Kompresi')
+                    ->formatStateUsing(function ($record) {
+                        $elapsedMs = number_format($record->elapsed_time, 3);
+
+                        return "{$elapsedMs} ms";
+                    })
+                    ->tooltip('Waktu proses Kompresi')
+                    ->wrap()
+                    ->searchable()
+                    ->sortable(),
 
                 Tables\Columns\TextColumn::make('after_size')
                     ->label('Compression Rate')

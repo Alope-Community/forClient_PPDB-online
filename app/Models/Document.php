@@ -13,6 +13,8 @@ class Document extends Model
         'file_path',
         'before_size',
         'after_size',
+        'legacy_file_name',
+        'elapsed_time'
     ];
 
     public function registration()

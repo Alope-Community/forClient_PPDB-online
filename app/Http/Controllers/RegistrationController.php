@@ -45,19 +45,25 @@ class RegistrationController extends Controller
 
         $fileFields = ['kartu_keluarga', 'akte_kelahiran', 'ijazah', 'skhu_raport'];
         $huffmanService = app(HuffmanService::class);
+        $elapsedTime = 0.0;
 
-        $fileData = collect($fileFields)->mapWithKeys(function ($field) use ($request, $huffmanService) {
+        $fileData = collect($fileFields)->mapWithKeys(function ($field) use ($request, $huffmanService, $elapsedTime) {
             if (!$request->hasFile($field)) {
                 return [
                     $field => [
                         'path' => '',
                         'before_size' => null,
                         'after_size' => null,
+                        'elapsed_time' => $elapsedTime,
+                        'legacy_file_name' => ''
                     ],
                 ];
             }
 
             $file = $request->file($field);
+
+            $originalName = $file->getClientOriginalName();
+
             $filename = uniqid() . '.' . $file->getClientOriginalExtension();
             $directory = storage_path("app/public/documents/$field");
 
@@ -73,7 +79,7 @@ class RegistrationController extends Controller
             $compressedPath = dirname($targetPath) . '/' . $compressedFilename;
 
             copy($targetPath, $compressedPath);
-            $huffmanService->compressImage($compressedPath);
+            $huffmanService->compressImage($compressedPath, $elapsedTime);
             $afterSize = filesize($compressedPath);
 
             unlink($targetPath);
@@ -85,6 +91,8 @@ class RegistrationController extends Controller
                     'path' => "documents/$field/" . $filename,
                     'before_size' => $beforeSize,
                     'after_size' => $afterSize,
+                    'elapsed_time' => number_format($elapsedTime * 1000, 3),
+                    'legacy_file_name' => $originalName
                 ],
             ];
         })->toArray();
@@ -100,6 +108,7 @@ class RegistrationController extends Controller
             }
 
             $targetPath = "$directory/$filename";
+            $originalName = $file->getClientOriginalName();
             $file->move(dirname($targetPath), basename($targetPath));
 
             $beforeSize = filesize($targetPath);
@@ -107,7 +116,7 @@ class RegistrationController extends Controller
             $compressedPath = dirname($targetPath) . '/' . $compressedFilename;
 
             copy($targetPath, $compressedPath);
-            $huffmanService->compressImage($compressedPath);
+            $huffmanService->compressImage($compressedPath, $elapsedTime);
             $afterSize = filesize($compressedPath);
 
             unlink($targetPath);
@@ -118,6 +127,8 @@ class RegistrationController extends Controller
                 'path' => "documents/kip_pkh_pip_sktm/" . $filename,
                 'before_size' => $beforeSize,
                 'after_size' => $afterSize,
+                'elapsed_time' => number_format($elapsedTime * 1000, 3),
+                'legacy_file_name' => $originalName
             ];
         } else {
             // tetap isi meskipun tidak ada file jika jalur afirmasi
@@ -125,6 +136,8 @@ class RegistrationController extends Controller
                 'path' => '',
                 'before_size' => null,
                 'after_size' => null,
+                'elapsed_time' => $elapsedTime,
+                'legacy_file_name' => ''
             ];
         }
 
@@ -153,6 +166,8 @@ class RegistrationController extends Controller
                 'file_path' => $data['path'],
                 'before_size' => $data['before_size'],
                 'after_size' => $data['after_size'],
+                'elapsed_time' => $data['elapsed_time'],
+                'legacy_file_name' => $data['legacy_file_name'],
                 'created_at' => now(),
             ];
         }
@@ -182,6 +197,7 @@ class RegistrationController extends Controller
         }
 
         $file = $request->file('file');
+        $originalName = $file->getClientOriginalName();
         $filename = uniqid() . '.' . $file->getClientOriginalExtension();
         $directory = storage_path("app/public/documents/$documentType");
 
@@ -194,12 +210,14 @@ class RegistrationController extends Controller
 
         // Proses kompresi Huffman
         $huffmanService = app(HuffmanService::class);
+        $elapsedTime = 0.0;
+
         $beforeSize = filesize($targetPath);
         $compressedFilename = pathinfo($targetPath, PATHINFO_FILENAME) . '_compressed.' . pathinfo($targetPath, PATHINFO_EXTENSION);
         $compressedPath = dirname($targetPath) . '/' . $compressedFilename;
 
         copy($targetPath, $compressedPath);
-        $huffmanService->compressImage($compressedPath);
+        $huffmanService->compressImage($compressedPath, $elapsedTime);
         $afterSize = filesize($compressedPath);
 
         unlink($targetPath);
@@ -214,6 +232,8 @@ class RegistrationController extends Controller
             'file_path' => $publicPath,
             'before_size' => $beforeSize,
             'after_size' => $afterSize,
+            'elapsed_time' => number_format($elapsedTime * 1000, 3),
+            'legacy_file_name' => $originalName,
         ]);
 
         Verification::updateOrCreate(

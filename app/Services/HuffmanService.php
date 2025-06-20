@@ -9,8 +9,57 @@ class HuffmanService
    private $huffmanCodes = [];
    private $buffer = null;
 
-   public function compressImage($imagePath)
-   {
+   // public function compressImage($imagePath)
+   // {
+   //    if (!file_exists($imagePath)) {
+   //       return false;
+   //    }
+
+   //    $image = imagecreatefromjpeg($imagePath);
+   //    if (!$image) {
+   //       return false;
+   //    }
+
+   //    $this->buffer = $image;
+
+   //    $width = imagesx($image);
+   //    $height = imagesy($image);
+
+   //    $samplePixels = [];
+   //    for ($i = 0; $i < 1000; $i++) {
+   //       $x = rand(0, $width - 1);
+   //       $y = rand(0, $height - 1);
+   //       $rgb = imagecolorat($image, $x, $y);
+
+   //       $r = ($rgb >> 16) & 0xFF;
+   //       $g = ($rgb >> 8) & 0xFF;
+   //       $b = $rgb & 0xFF;
+   //       $a = ($rgb >> 24) & 0x7F;
+
+   //       $samplePixels[] = ['r' => $r, 'g' => $g, 'b' => $b, 'a' => 127 - $a];
+   //    }
+
+   //    $this->calculateFrequencies($samplePixels);
+   //    $this->buildHuffmanTree();
+   //    $this->generateHuffmanCodes($this->huffmanTree);
+
+   //    $resized = imagecreatetruecolor($width, $height);
+   //    imagecopyresampled($resized, $image, 0, 0, 0, 0, $width, $height, $width, $height);
+
+   //    $bufferWidth = 200;
+   //    $bufferHeight = 200;
+
+   //    imagejpeg($resized, $imagePath, 10);
+
+   //    imagedestroy($image);
+   //    imagedestroy($resized);
+
+   //    return true;
+   // }
+    public function compressImage($imagePath, ?float &$elapsed = null)
+    {
+      $t0 = microtime(true); // Start timer
+
       if (!file_exists($imagePath)) {
          return false;
       }
@@ -46,13 +95,12 @@ class HuffmanService
       $resized = imagecreatetruecolor($width, $height);
       imagecopyresampled($resized, $image, 0, 0, 0, 0, $width, $height, $width, $height);
 
-      $bufferWidth = 200;
-      $bufferHeight = 200;
-
       imagejpeg($resized, $imagePath, 10);
 
       imagedestroy($image);
       imagedestroy($resized);
+
+      $elapsed = microtime(true) - $t0;
 
       return true;
    }

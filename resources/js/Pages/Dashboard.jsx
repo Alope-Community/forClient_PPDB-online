@@ -55,6 +55,11 @@ export default function Dashboard({ auth }) {
         post("/update-document");
     }
 
+    function convertToMB(bytes){
+        const megabytes = bytes / (1024 * 1024);
+        return megabytes.toFixed(2) + " MB";
+    }
+
     return (
         <AuthenticatedLayout
             header={
@@ -225,6 +230,12 @@ export default function Dashboard({ auth }) {
                                                                     ? "SKHU"
                                                                     : doc.document_type.toUpperCase()}
                                                             </span>
+                                                            <p className="text-gray-700 text-xs">
+                                                                {doc.legacy_file_name}
+                                                            </p>
+                                                            <p className="text-sm text-gray-800">
+                                                               {convertToMB(doc.before_size)} 
+                                                            </p>
                                                             <br />
 
                                                             {doc.file_path !=
